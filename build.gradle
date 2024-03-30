@@ -6,9 +6,10 @@ plugins {
 
 group = 'com.example'
 version = '0.0.1-SNAPSHOT'
+description = 'spring-boot-webrtc-peer2peer'
 
 java {
-    sourceCompatibility = '17'
+    sourceCompatibility = '21'
 }
 //compileJava {
 //    options.compilerArgs += ['--add-opens', 'java.base/java.lang=ALL-UNNAMED']
@@ -33,6 +34,7 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
+    implementation 'com.corundumstudio.socketio:netty-socketio:1.7.23'
 }
 
 tasks.named('test') {
