@@ -1,19 +1,18 @@
 const LOCAL_IP_ADDRESS = "172.20.10.2"; // change it 172.20.10.2
 
-const getElement = id => document.getElementById(id);
+const getElement = id => document.getElementById(id); // index.html의 id값을 참조하겠다.
 const [btnConnect, btnToggleVideo, btnToggleAudio, divRoomConfig, roomDiv, roomNameInput, localVideo, remoteVideo] = ["btnConnect",
   "toggleVideo", "toggleAudio", "roomConfig", "roomDiv", "roomName",
-  "localVideo", "remoteVideo"].map(getElement);
+  "localVideo", "remoteVideo"].map(getElement);  //index.html의 id값을 매핑하겠다.
 let remoteDescriptionPromise, roomName, localStream, remoteStream,
-    rtcPeerConnection, isCaller;
+    rtcPeerConnection, isCaller; // 변수 선언
+// var : 재선언 가능+업데이트 가능, let : 재선언 불가+업데이트 가능, const : 재선언 불가+업데이트 불가
 
-// you can use public stun and turn servers,
-// but we don't need for local development
 const iceServers = {
   iceServers: [
-    {urls: `stun:${LOCAL_IP_ADDRESS}:3478`},
+    {urls: `stun:${LOCAL_IP_ADDRESS}:3478`}, // 본인의 로컬 IP를 보내고 Public IP를 받아옴 // c/c 직접적인 연결
     {
-      urls: `turn:${LOCAL_IP_ADDRESS}:3478`,
+      urls: `turn:${LOCAL_IP_ADDRESS}:3478`,  // 본인의 로컬 IP를 보내고 Public IP를 받아옴 // 방화벽 뚫기 등 중재 역할
       username: "username",
       credential: "password"
     }
