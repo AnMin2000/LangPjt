@@ -14,23 +14,31 @@
   <link rel="stylesheet" type="text/css" href="style.css" />
 </head>
 <body style="background-color:#eae7e7;"> <!-- 배경색 바꾸기 -->
-<h1 style="text-align: center; margin: 15px 10px 30px 10px">
-  <strong> 원하시는 방 번호를 입력해주세요 </strong>
+
+<h1 style="text-align: center; margin: 15px 10px 30px 10px; font-family: Arial;">
+  <strong>
+    Unlock Your English Potential!
+  </strong>
 </h1>
 
+<!--div 새로 하나 만들어서 감싸고 js에 roomConfig 말고 새로 만든 div id 값으로 넣기-->
 <div id="roomConfig" class="d-flex justify-content-center mb-3">
   <div class="input-group input-group-lg" style="max-width: 400px">
     <input
-        id="roomName"
-        type="text"
-        class="form-control form-control-lg"
-        placeholder="Enter room"
+            id="roomName"
+            type="text"
+            class="form-control form-control-lg"
+            placeholder="Enter room"
     />
     <button id="btnConnect" class="btn btn-primary btn-lg" type="button">
       입장하기
     </button>
   </div>
 </div>
+<!--추가적으로 여기서 테이블 넣으면 됨-->
+
+
+
 
 <div id="roomDiv" class="d-none d-flex flex-column align-items-center mt-3">
   <div

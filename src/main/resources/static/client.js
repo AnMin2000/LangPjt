@@ -19,56 +19,56 @@ const iceServers = {
   ]
 };
 
-const streamConstraints = {audio: true, video: true};
+const streamConstraints = {audio: true, video: true}; // 미디어 스트림 제약 설정 -> getUserMedia() 메서드와 사용
 
-let socket = io.connect(`https://${LOCAL_IP_ADDRESS}`, {secure: true});
+let socket = io.connect(`https://${LOCAL_IP_ADDRESS}`, {secure: true}); // web 소켓 연결 + 보안 설정
 // let socket = io.connect("http://192.168.0.3:8000");
 
-btnToggleVideo.addEventListener("click", () => toggleTrack("video"));
-btnToggleAudio.addEventListener("click", () => toggleTrack("audio"));
+btnToggleVideo.addEventListener("click", () => toggleTrack("video")); // 클릭시 toggle 함수 호출
+btnToggleAudio.addEventListener("click", () => toggleTrack("audio")); // 클릭시 toggle 함수 호출
 
-function toggleTrack(trackType) {
+function toggleTrack(trackType) { // localSteam이 null 일때 강제 강제 종료 -> 불필요한 작업 최소화
   if (!localStream) {
     return;
   }
 
-  const track = trackType === "video" ? localStream.getVideoTracks()[0]
+  const track = trackType === "video" ? localStream.getVideoTracks()[0] // video or audio 체크
       : localStream.getAudioTracks()[0];
-  const enabled = !track.enabled;
-  track.enabled = enabled;
+  const enabled = !track.enabled;  //현재 트랙의 활성화 상태를 반전 시킴
+  track.enabled = enabled; // 대입
 
   const toggleButton = getElement(
-      `toggle${trackType.charAt(0).toUpperCase() + trackType.slice(1)}`);
-  const icon = getElement(`${trackType}Icon`);
-  toggleButton.classList.toggle("disabled-style", !enabled);
-  toggleButton.classList.toggle("enabled-style", enabled);
-  icon.classList.toggle("bi-camera-video-fill",
+      `toggle${trackType.charAt(0).toUpperCase() + trackType.slice(1)}`); // html에서  toggle의 trackType을 갖고와서 첫글자 대문자 반환
+  const icon = getElement(`${trackType}Icon`); // html에서 icon의 trackType을 갖고옴
+  toggleButton.classList.toggle("disabled-style", !enabled); // !enable 일경우 disable 스타일 적용
+  toggleButton.classList.toggle("enabled-style", enabled);   // enable 일경우 enable 스타일 적용
+  icon.classList.toggle("bi-camera-video-fill",  //video가 enable 일경우 활성화
       trackType === "video" && enabled);
-  icon.classList.toggle("bi-camera-video-off-fill",
+  icon.classList.toggle("bi-camera-video-off-fill",  // "가 !enable 일경우 비활성화
       trackType === "video" && !enabled);
-  icon.classList.toggle("bi-mic-fill", trackType === "audio" && enabled);
-  icon.classList.toggle("bi-mic-mute-fill", trackType === "audio" && !enabled);
+  icon.classList.toggle("bi-mic-fill", trackType === "audio" && enabled);         // 같음
+  icon.classList.toggle("bi-mic-mute-fill", trackType === "audio" && !enabled);   // 같음
 }
 
 btnConnect.onclick = () => {
   if (roomNameInput.value === "") {
-    alert("Room can not be null!");
+    alert("Room can not be null!"); // 방 이름 비었는지 확인
   } else {
-    roomName = roomNameInput.value;
-    socket.emit("joinRoom", roomName);
-    divRoomConfig.classList.add("d-none");
-    roomDiv.classList.remove("d-none");
+    roomName = roomNameInput.value;  // rooName 변수에 저장
+    socket.emit("joinRoom", roomName); // 서버에 joinRoom 전송
+    divRoomConfig.classList.add("d-none"); // 숨김 처리 -> classList(d-none) : div 제거 역할
+    roomDiv.classList.remove("d-none"); // 표시 처리
   }
 };
 
 const handleSocketEvent = (eventName, callback) => socket.on(eventName,
-    callback);
+    callback); // 아래 여러 핸들 소켓 이벤트들을 처리하기 위해 정의 // 첫번째 eventName, callback은 이름 정의 두번째는 호출
 
 handleSocketEvent("created", e => {
-  navigator.mediaDevices.getUserMedia(streamConstraints).then(stream => {
-    localStream = stream;
-    localVideo.srcObject = stream;
-    isCaller = true;
+  navigator.mediaDevices.getUserMedia(streamConstraints).then(stream => {  // 미디어 장치 접근
+    localStream = stream;  // 미디어 스트림 할당
+    localVideo.srcObject = stream;  // 비디오 요소에 미디어 스트림 연결(카메라 영상 표시)
+    isCaller = true; // 방 생성 했다는 의미
   }).catch(console.error);
 });
 
@@ -76,8 +76,53 @@ handleSocketEvent("joined", e => {
   navigator.mediaDevices.getUserMedia(streamConstraints).then(stream => {
     localStream = stream;
     localVideo.srcObject = stream;
-    socket.emit("ready", roomName);
+    socket.emit("ready", roomName); // roomName 과 함께 ready를 서버로 보냄
   }).catch(console.error);
+});
+
+handleSocketEvent("ready", e => {
+  if (isCaller) {
+    rtcPeerConnection = new RTCPeerConnection(iceServers);
+    rtcPeerConnection.onicecandidate = onIceCandidate;
+    rtcPeerConnection.ontrack = onAddStream;
+    rtcPeerConnection.addTrack(localStream.getTracks()[0], localStream);
+    rtcPeerConnection.addTrack(localStream.getTracks()[1], localStream);
+    rtcPeerConnection
+        .createOffer()
+        .then(sessionDescription => {
+          rtcPeerConnection.setLocalDescription(sessionDescription);
+          socket.emit("offer", {
+            type: "offer", sdp: sessionDescription, room: roomName,
+          });
+        })
+        .catch(error => console.log(error));
+  }
+});
+
+handleSocketEvent("offer", e => {
+  if (!isCaller) {
+    rtcPeerConnection = new RTCPeerConnection(iceServers);
+    rtcPeerConnection.onicecandidate = onIceCandidate;
+    rtcPeerConnection.ontrack = onAddStream;
+    rtcPeerConnection.addTrack(localStream.getTracks()[0], localStream);
+    rtcPeerConnection.addTrack(localStream.getTracks()[1], localStream);
+
+    if (rtcPeerConnection.signalingState === "stable") {
+      remoteDescriptionPromise = rtcPeerConnection.setRemoteDescription(
+          new RTCSessionDescription(e));
+      remoteDescriptionPromise
+          .then(() => {
+            return rtcPeerConnection.createAnswer();
+          })
+          .then(sessionDescription => {
+            rtcPeerConnection.setLocalDescription(sessionDescription);
+            socket.emit("answer", {
+              type: "answer", sdp: sessionDescription, room: roomName,
+            });
+          })
+          .catch(error => console.log(error));
+    }
+  }
 });
 
 handleSocketEvent("candidate", e => {
@@ -99,51 +144,6 @@ handleSocketEvent("candidate", e => {
       })
       .catch(error => console.log(
           "Error adding ICE candidate after remote description: ", error));
-    }
-  }
-});
-
-handleSocketEvent("ready", e => {
-  if (isCaller) {
-    rtcPeerConnection = new RTCPeerConnection(iceServers);
-    rtcPeerConnection.onicecandidate = onIceCandidate;
-    rtcPeerConnection.ontrack = onAddStream;
-    rtcPeerConnection.addTrack(localStream.getTracks()[0], localStream);
-    rtcPeerConnection.addTrack(localStream.getTracks()[1], localStream);
-    rtcPeerConnection
-    .createOffer()
-    .then(sessionDescription => {
-      rtcPeerConnection.setLocalDescription(sessionDescription);
-      socket.emit("offer", {
-        type: "offer", sdp: sessionDescription, room: roomName,
-      });
-    })
-    .catch(error => console.log(error));
-  }
-});
-
-handleSocketEvent("offer", e => {
-  if (!isCaller) {
-    rtcPeerConnection = new RTCPeerConnection(iceServers);
-    rtcPeerConnection.onicecandidate = onIceCandidate;
-    rtcPeerConnection.ontrack = onAddStream;
-    rtcPeerConnection.addTrack(localStream.getTracks()[0], localStream);
-    rtcPeerConnection.addTrack(localStream.getTracks()[1], localStream);
-
-    if (rtcPeerConnection.signalingState === "stable") {
-      remoteDescriptionPromise = rtcPeerConnection.setRemoteDescription(
-          new RTCSessionDescription(e));
-      remoteDescriptionPromise
-      .then(() => {
-        return rtcPeerConnection.createAnswer();
-      })
-      .then(sessionDescription => {
-        rtcPeerConnection.setLocalDescription(sessionDescription);
-        socket.emit("answer", {
-          type: "answer", sdp: sessionDescription, room: roomName,
-        });
-      })
-      .catch(error => console.log(error));
     }
   }
 });
