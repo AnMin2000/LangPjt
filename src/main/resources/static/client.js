@@ -1,9 +1,10 @@
 const LOCAL_IP_ADDRESS = "172.20.10.2"; // change it 172.20.10.2
 
 const getElement = id => document.getElementById(id); // index.html의 id값을 참조하겠다.
-const [btnConnect, btnToggleVideo, btnToggleAudio, divRoomConfig, roomDiv, roomNameInput, localVideo, remoteVideo] = ["btnConnect",
-  "toggleVideo", "toggleAudio", "roomConfig", "roomDiv", "roomName",
-  "localVideo", "remoteVideo"].map(getElement);  //index.html의 id값을 매핑하겠다.
+const [btnConnect, btnToggleVideo, btnToggleAudio, divRoomConfig, roomDiv,
+  roomNameInput, localVideo, remoteVideo, btnRandom] =
+    ["btnConnect", "toggleVideo", "toggleAudio", "roomConfig", "roomDiv", "roomName",
+  "localVideo", "remoteVideo", "btnRandom"].map(getElement);  //index.html의 id값을 매핑하겠다.
 let remoteDescriptionPromise, roomName, localStream, remoteStream,
     rtcPeerConnection, isCaller; // 변수 선언
 // var : 재선언 가능+업데이트 가능, let : 재선언 불가+업데이트 가능, const : 재선언 불가+업데이트 불가
@@ -50,15 +51,23 @@ function toggleTrack(trackType) { // localSteam이 null 일때 강제 강제 종
   icon.classList.toggle("bi-mic-mute-fill", trackType === "audio" && !enabled);   // 같음
 }
 
-btnConnect.onclick = () => {
+btnConnect.onclick = () => { // 방생성 + 방입장
   if (roomNameInput.value === "") {
-    alert("Room can not be null!"); // 방 이름 비었는지 확인
+    alert("Room can not be null!"); // 방 이름을 적었는지 확인
   } else {
     roomName = roomNameInput.value;  // rooName 변수에 저장
     socket.emit("joinRoom", roomName); // 서버에 joinRoom 전송
     divRoomConfig.classList.add("d-none"); // 숨김 처리 -> classList(d-none) : div 제거 역할
     roomDiv.classList.remove("d-none"); // 표시 처리
   }
+};
+
+btnRandom.onclick = () => { // 랜덤 방 입장
+
+    roomName = "1"; // -----------> 이 부분 몇번인지 넘겨줘야 서버에서 알 수 있음**********************************
+    socket.emit("randomRoom", roomName); // 서버에 joinRoom 전송
+    divRoomConfig.classList.add("d-none"); // 숨김 처리 -> classList(d-none) : div 제거 역할
+    roomDiv.classList.remove("d-none"); // 표시 처리
 };
 
 const handleSocketEvent = (eventName, callback) => socket.on(eventName,
@@ -167,6 +176,11 @@ handleSocketEvent("setCaller", callerId => {
 
 handleSocketEvent("full", e => {
   alert("room is full!");
+  window.location.reload();
+});
+
+handleSocketEvent("empty", e => {
+  alert("생성 돼 있는 방이 없음");
   window.location.reload();
 });
 

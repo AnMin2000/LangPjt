@@ -12,6 +12,7 @@ import java.util.Objects;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+
 @Component // 스프링 컨텍스트에서 빈으로 자동 등록되도록 함
 @Slf4j // 로깅을 위한 어노테이션
 public class SocketHandler {
@@ -68,6 +69,28 @@ public class SocketHandler {
     printLog("onReady", client, room); // 로그 출력
   }
 
+  @OnEvent("randomRoom")
+  public void onRandomRoom(SocketIOClient client) {
+    int connectedClients;
+    String roomNum;
+    boolean isRoomsEmpty = rooms.isEmpty(); // 비어있으면 true, 존재하면 false
+    if(isRoomsEmpty){
+      client.sendEvent("empty", "null");
+    }
+    else {
+      for (Map.Entry<String, String> entrySet : rooms.entrySet()) {
+        roomNum = entrySet.getKey();
+        connectedClients = server.getRoomOperations(roomNum).getClients().size(); // 해당 방에 연결된 클라이언트 수 확인
+        if (connectedClients == 1) {
+          client.joinRoom(roomNum); // 방에 클라이언트를 추가 ------------> 아래쪽 어딘가 문제가 있음
+          client.sendEvent("joined", roomNum); // 클라이언트에게 'joined' 이벤트 전송
+          users.put(client.getSessionId().toString(), roomNum); // 사용자 맵에 클라이언트 추가
+          client.sendEvent("setCaller", rooms.get(roomNum)); // 클라이언트에게 'setCaller' 이벤트 전송
+          break;
+        }
+      }
+    }
+  }
   // 클라이언트가 준비되었음을 알릴 때 호출되는 메서드
   @OnEvent("ready") // 연결 설정 및 미디어 스트림 같은 작업들이 모두 완료 됐을 때 호출 되는 메서드
   public void onReady(SocketIOClient client, String room, AckRequest ackRequest) {
@@ -115,8 +138,8 @@ public class SocketHandler {
     try {
       size = client.getNamespace().getRoomOperations(room).getClients().size(); // 해당 방에 속한 클라이언트 수 가져오기
     } catch (Exception e) {
-      log.error("error ", e); // 에러 발생 시 로그 출력
+      SocketHandler.log.error("error ", e); // 에러 발생 시 로그 출력
     }
-    log.info("#ConncetedClients - {} => room: {}, count: {}", header, room, size); // 방 정보와 연결된 클라이언트 수를 로그로 출력
+    SocketHandler.log.info("#ConncetedClients - {} => room: {}, count: {}", header, room, size); // 방 정보와 연결된 클라이언트 수를 로그로 출력
   }
 }
