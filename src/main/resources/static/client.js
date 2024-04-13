@@ -62,13 +62,18 @@ btnConnect.onclick = () => { // 방생성 + 방입장
   }
 };
 
-btnRandom.onclick = () => { // 랜덤 방 입장
-
-    roomName = "1"; // -----------> 이 부분 몇번인지 넘겨줘야 서버에서 알 수 있음**********************************
-    socket.emit("randomRoom", roomName); // 서버에 joinRoom 전송
-    divRoomConfig.classList.add("d-none"); // 숨김 처리 -> classList(d-none) : div 제거 역할
-    roomDiv.classList.remove("d-none"); // 표시 처리
-};
+// btnRandom.onclick = () => { // 랜덤 방 입장
+//
+//
+//   // 클라이언트 측 코드
+//       socket.on("randomRoom", (roomNum) => {   // 'joined' 이벤트를 수신하고 roomNum을 설정합니다.
+//       roomName = roomNum; // 서버에서 보낸 roomNum을 roomName에 저장
+//   });
+//
+//     socket.emit("randomRoom", roomName); // 서버에 joinRoom 전송
+//     divRoomConfig.classList.add("d-none"); // 숨김 처리 -> classList(d-none) : div 제거 역할
+//     roomDiv.classList.remove("d-none"); // 표시 처리
+// };
 
 const handleSocketEvent = (eventName, callback) => socket.on(eventName,
     callback); // 아래 여러 핸들 소켓 이벤트들을 처리하기 위해 정의 // 첫번째 eventName, callback은 이름 정의 두번째는 호출
