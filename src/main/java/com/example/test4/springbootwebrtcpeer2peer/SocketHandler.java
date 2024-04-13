@@ -69,28 +69,28 @@ public class SocketHandler {
     printLog("onReady", client, room); // 로그 출력
   }
 
-//  @OnEvent("randomRoom")
-//  public void onRandomRoom(SocketIOClient client) {
-//    int connectedClients;
-//    String roomNum;
-//    boolean isRoomsEmpty = rooms.isEmpty(); // 비어있으면 true, 존재하면 false
-//    if(isRoomsEmpty){
-//      client.sendEvent("empty", "null");
-//    }
-//    else {
-//      for (Map.Entry<String, String> entrySet : rooms.entrySet()) {
-//        roomNum = entrySet.getKey();
-//        connectedClients = server.getRoomOperations(roomNum).getClients().size(); // 해당 방에 연결된 클라이언트 수 확인
-//        if (connectedClients == 1) {
-//          client.joinRoom(roomNum); // 방에 클라이언트를 추가 ------------> 아래쪽 어딘가 문제가 있음
-//          client.sendEvent("joined", roomNum); // 클라이언트에게 'joined' 이벤트 전송
-//          users.put(client.getSessionId().toString(), roomNum); // 사용자 맵에 클라이언트 추가
-//          client.sendEvent("setCaller", rooms.get(roomNum)); // 클라이언트에게 'setCaller' 이벤트 전송
-//          break;
-//        }
-//      }
-//    }
-//  }
+  @OnEvent("randomRoom")
+  public void onRandomRoom(SocketIOClient client) {
+    int connectedClients;
+    String roomNum;
+    boolean isRoomsEmpty = rooms.isEmpty(); // 비어있으면 true, 존재하면 false
+    if(isRoomsEmpty){
+      client.sendEvent("empty", (Object) null);
+    }
+    else {
+      for (Map.Entry<String, String> entrySet : rooms.entrySet()) {
+        roomNum = entrySet.getKey();
+        connectedClients = server.getRoomOperations(roomNum).getClients().size(); // 해당 방에 연결된 클라이언트 수 확인
+        if (connectedClients == 1) {
+          client.joinRoom(roomNum); // 방에 클라이언트를 추가 ------------> 아래쪽 어딘가 문제가 있음
+          client.sendEvent("joined", roomNum); // 클라이언트에게 'joined' 이벤트 전송
+          users.put(client.getSessionId().toString(), roomNum); // 사용자 맵에 클라이언트 추가
+          client.sendEvent("setCaller", rooms.get(roomNum)); // 클라이언트에게 'setCaller' 이벤트 전송
+          break;
+        }
+      }
+    }
+  }
   // 클라이언트가 준비되었음을 알릴 때 호출되는 메서드
   @OnEvent("ready") // 연결 설정 및 미디어 스트림 같은 작업들이 모두 완료 됐을 때 호출 되는 메서드
   public void onReady(SocketIOClient client, String room, AckRequest ackRequest) {
@@ -128,7 +128,8 @@ public class SocketHandler {
   @OnEvent("leaveRoom")
   public void onLeaveRoom(SocketIOClient client, String room) {
     client.leaveRoom(room); // 클라이언트를 방에서 나가게 함
-    printLog("onLeaveRoom", client, room); // 로그 출력
+    rooms.remove(room, client.getSessionId().toString()); // 방 맵에 방과 클라이언트 아이디 추가
+    users.remove(client.getSessionId().toString(), room);
   }
 
   // 로그 출력 메서드

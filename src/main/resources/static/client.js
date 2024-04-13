@@ -1,10 +1,10 @@
 const LOCAL_IP_ADDRESS = "172.20.10.2"; // change it 172.20.10.2
-
+// console.log("입력") 웹페이지에 로그가 뜸
 const getElement = id => document.getElementById(id); // index.html의 id값을 참조하겠다.
 const [btnConnect, btnToggleVideo, btnToggleAudio, divRoomConfig, roomDiv,
-  roomNameInput, localVideo, remoteVideo, btnRandom] =
+  roomNameInput, localVideo, remoteVideo, btnRandom, toggleCancel] =
     ["btnConnect", "toggleVideo", "toggleAudio", "roomConfig", "roomDiv", "roomName",
-  "localVideo", "remoteVideo", "btnRandom"].map(getElement);  //index.html의 id값을 매핑하겠다.
+  "localVideo", "remoteVideo", "btnRandom", "toggleCancel"].map(getElement);  //index.html의 id값을 매핑하겠다.
 let remoteDescriptionPromise, roomName, localStream, remoteStream,
     rtcPeerConnection, isCaller; // 변수 선언
 // var : 재선언 가능+업데이트 가능, let : 재선언 불가+업데이트 가능, const : 재선언 불가+업데이트 불가
@@ -62,18 +62,24 @@ btnConnect.onclick = () => { // 방생성 + 방입장
   }
 };
 
-// btnRandom.onclick = () => { // 랜덤 방 입장
-//
-//
-//   // 클라이언트 측 코드
-//       socket.on("randomRoom", (roomNum) => {   // 'joined' 이벤트를 수신하고 roomNum을 설정합니다.
-//       roomName = roomNum; // 서버에서 보낸 roomNum을 roomName에 저장
-//   });
-//
-//     socket.emit("randomRoom", roomName); // 서버에 joinRoom 전송
-//     divRoomConfig.classList.add("d-none"); // 숨김 처리 -> classList(d-none) : div 제거 역할
-//     roomDiv.classList.remove("d-none"); // 표시 처리
-// };
+btnRandom.onclick = () => { // 랜덤 방 입장
+    socket.emit("randomRoom"); // 서버에 joinRoom 전송
+
+  // 클라이언트 측 코드
+  socket.on("joined", (roomNum) => {   // 'joined' 이벤트를 수신하고 roomNum을 설정합니다.
+    roomName = roomNum; // 서버에서 보낸 roomNum을 roomName에 저장
+  });
+
+    divRoomConfig.classList.add("d-none"); // 숨김 처리 -> classList(d-none) : div 제거 역할
+    roomDiv.classList.remove("d-none"); // 표시 처리
+};
+
+toggleCancel.onclick = () => {
+  socket.emit("leaveRoom", roomName); // 서버에 joinRoom 전송
+  roomName = null;
+  location.reload();
+}
+
 
 const handleSocketEvent = (eventName, callback) => socket.on(eventName,
     callback); // 아래 여러 핸들 소켓 이벤트들을 처리하기 위해 정의 // 첫번째 eventName, callback은 이름 정의 두번째는 호출

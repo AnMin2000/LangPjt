@@ -16,12 +16,17 @@
   color: white;
 }
 
+.bi.bi-x{
+  font-size: 40px;
+  color: white;
+}
+
 .enabled-style {
   background-color: #008cff;
 }
 
 
 .disabled-style {
-  background-color: #ff3030;
+  background-color: #af2b2b;
 }
 
