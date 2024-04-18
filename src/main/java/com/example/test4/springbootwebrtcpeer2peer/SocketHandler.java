@@ -9,6 +9,8 @@ import com.corundumstudio.socketio.annotation.OnEvent;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -36,15 +38,34 @@ public class SocketHandler {
     users.put(clientId, null); // 사용자 맵에 클라이언트 아이디 추가
   }
 
-  // 클라이언트가 연결 해제될 때 호출되는 메서드
+  // 클라이언트가 강제 종료 했을 때 호출되는 메서드
   @OnDisconnect
   public void onDisconnect(SocketIOClient client) {
     String clientId = client.getSessionId().toString(); // 클라이언트 아이디 가져오기
     String room = users.get(clientId); // 클라이언트가 속한 방 가져오기
     if (!Objects.isNull(room)) { // 방이 존재하는 경우
       System.out.println(String.format("Client disconnected: %s from : %s", clientId, room)); // 클라이언트 연결 해제 로그 출력
-      users.remove(clientId); // 사용자 맵에서 클라이언트 제거
-      client.getNamespace().getRoomOperations(room).sendEvent("userDisconnected", clientId); // 해당 방에 속한 클라이언트들에게 이벤트 전송
+
+       users.remove(clientId,room); // 사용자 맵에서 클라이언트 제거
+
+      if (rooms.containsKey(room) && rooms.get(room).equals(clientId)) { // 이건 방장 --> 이거 발생하면 room의 밸류 값을 갖고 있는 users 목록을 새로고침 해야 됨
+        // 키와 값이 모두 일치할 때 제거
+        rooms.remove(room, clientId);
+
+        System.out.println("방 '" + room + "'의 클라이언트 '" + clientId + "'가 제거되었습니다.");
+        System.out.println("테스트" + clientId);
+        client.leaveRoom(room); // 클라이언트를 방에서 나가게 함 --> 이걸 써야 나갔을 때 화면이 꺼짐
+        client.getNamespace().getRoomOperations(room).sendEvent("userDisconnected1", clientId); // 해당 방에 속한 클라이언트들에게 이벤트 전송
+
+      } else { // 이건 팀원
+
+        System.out.println("방 '" + room + "'에 클라이언트 '" + clientId + "'가 존재하지 않습니다.");
+        System.out.println(rooms);
+        client.leaveRoom(room); // 클라이언트를 방에서 나가게 함 --> 이걸 써야 나갔을 때 화면이 꺼짐
+        client.getNamespace().getRoomOperations(room).sendEvent("userDisconnected2", clientId); // 해당 방에 속한 클라이언트들에게 이벤트 전송
+      }
+      System.out.println("현재 방 : " + rooms);
+
     }
     printLog("onDisconnect", client, room); // 로그 출력
   }
@@ -58,6 +79,7 @@ public class SocketHandler {
       client.sendEvent("created", room); // 클라이언트에게 'created' 이벤트 전송
       users.put(client.getSessionId().toString(), room); // 사용자 맵에 클라이언트 추가
       rooms.put(room, client.getSessionId().toString()); // 방 맵에 방과 클라이언트 아이디 추가
+
     } else if (connectedClients == 1) { // 방에 클라이언트가 한 명 있는 경우
       client.joinRoom(room); // 방에 클라이언트를 추가
       client.sendEvent("joined", room); // 클라이언트에게 'joined' 이벤트 전송
@@ -74,6 +96,8 @@ public class SocketHandler {
     int connectedClients;
     String roomNum;
     boolean isRoomsEmpty = rooms.isEmpty(); // 비어있으면 true, 존재하면 false
+    boolean check = false;
+
     if(isRoomsEmpty){
       client.sendEvent("empty", (Object) null);
     }
@@ -81,13 +105,18 @@ public class SocketHandler {
       for (Map.Entry<String, String> entrySet : rooms.entrySet()) {
         roomNum = entrySet.getKey();
         connectedClients = server.getRoomOperations(roomNum).getClients().size(); // 해당 방에 연결된 클라이언트 수 확인
+        System.out.println("사람 인원 테스트 : " + connectedClients + "방 번호 : " + roomNum);
         if (connectedClients == 1) {
           client.joinRoom(roomNum); // 방에 클라이언트를 추가 ------------> 아래쪽 어딘가 문제가 있음
           client.sendEvent("joined", roomNum); // 클라이언트에게 'joined' 이벤트 전송
           users.put(client.getSessionId().toString(), roomNum); // 사용자 맵에 클라이언트 추가
           client.sendEvent("setCaller", rooms.get(roomNum)); // 클라이언트에게 'setCaller' 이벤트 전송
+          check = true;
           break;
         }
+      }
+      if (!check) {
+        client.sendEvent("empty", (Object) null); // 클라이언트에게 'empty' 이벤트 전송
       }
     }
   }
@@ -126,11 +155,15 @@ public class SocketHandler {
 
   // 방에서 나갈 때 호출되는 메서드
   @OnEvent("leaveRoom")
-  public void onLeaveRoom(SocketIOClient client, String room) {
-    client.leaveRoom(room); // 클라이언트를 방에서 나가게 함
-    rooms.remove(room, client.getSessionId().toString()); // 방 맵에 방과 클라이언트 아이디 추가
-    users.remove(client.getSessionId().toString(), room);
+  public void onLeaveRoom(SocketIOClient client) {
+    String clientId = client.getSessionId().toString(); // 클라이언트 아이디 가져오기
+    String room = users.get(clientId); // 클라이언트가 속한 방 가져오기
+    //client.leaveRoom(room); // 클라이언트를 방에서 나가게 함
+    // leaveRoom을 사용했을 때 무언가를 처리하고 싶을 때 처리
+    printLog("onLeaveRoom", client, room); // 로그 출력
+
   }
+
 
   // 로그 출력 메서드
   private static void printLog(String header, SocketIOClient client, String room) {

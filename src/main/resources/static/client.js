@@ -75,9 +75,17 @@ btnRandom.onclick = () => { // 랜덤 방 입장
 };
 
 toggleCancel.onclick = () => {
-  socket.emit("leaveRoom", roomName); // 서버에 joinRoom 전송
-  roomName = null;
-  location.reload();
+  // "나가시겠습니까?"라는 알림창 표시
+  const userConfirmed = confirm("나가시겠습니까?");
+
+  if (userConfirmed) {
+
+    // 사용자가 "예"를 선택한 경우
+    socket.emit("leaveRoom", roomName); // 서버에 leaveRoom 이벤트 전송
+    socket.emit("onDisconnect")
+    roomName = null; // 나가면 room 번호 초기화
+    location.reload(); // 페이지 새로고침
+  }
 }
 
 
@@ -176,9 +184,20 @@ handleSocketEvent("answer", e => {
   }
 });
 
-handleSocketEvent("userDisconnected", (e) => {
+handleSocketEvent("userDisconnected1", (e) => {
   remoteVideo.srcObject = null;
   isCaller = true;
+  location.reload(); // 페이지 새로고침
+
+
+  // roomName = null; // 나가면 room 번호 초기화
+});
+handleSocketEvent("userDisconnected2", (e) => {
+
+  remoteVideo.srcObject = null;
+  isCaller = true;
+
+  // roomName = null; // 나가면 room 번호 초기화
 });
 
 handleSocketEvent("setCaller", callerId => {
