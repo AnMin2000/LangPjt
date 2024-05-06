@@ -2,9 +2,10 @@ const LOCAL_IP_ADDRESS = "172.20.10.2"; // change it 172.20.10.2
 // console.log("입력") 웹페이지에 로그가 뜸
 const getElement = id => document.getElementById(id); // index.html의 id값을 참조하겠다.
 const [btnConnect, btnToggleVideo, btnToggleAudio, divRoomConfig, roomDiv,
-  roomNameInput, localVideo, remoteVideo, btnRandom, toggleCancel] =
+  roomNameInput, localVideo, remoteVideo, btnRandom, toggleCancel, btnCreate,
+  toggleRefresh] =
     ["btnConnect", "toggleVideo", "toggleAudio", "roomConfig", "roomDiv", "roomName",
-  "localVideo", "remoteVideo", "btnRandom", "toggleCancel"].map(getElement);  //index.html의 id값을 매핑하겠다.
+  "localVideo", "remoteVideo", "btnRandom", "toggleCancel", "btnCreate", "toggleRefresh"].map(getElement);  //index.html의 id값을 매핑하겠다.
 let remoteDescriptionPromise, roomName, localStream, remoteStream,
     rtcPeerConnection, isCaller; // 변수 선언
 // var : 재선언 가능+업데이트 가능, let : 재선언 불가+업데이트 가능, const : 재선언 불가+업데이트 불가
@@ -51,7 +52,7 @@ function toggleTrack(trackType) { // localSteam이 null 일때 강제 강제 종
   icon.classList.toggle("bi-mic-mute-fill", trackType === "audio" && !enabled);   // 같음
 }
 
-btnConnect.onclick = () => { // 방생성 + 방입장
+btnConnect.onclick = () => { // 방입장
   if (roomNameInput.value === "") {
     alert("Room can not be null!"); // 방 이름을 적었는지 확인
   } else {
@@ -62,6 +63,18 @@ btnConnect.onclick = () => { // 방생성 + 방입장
     roomDiv.classList.remove("d-none"); // 표시 처리
   }
 };
+
+btnCreate.onclick = () => { // 방 생성
+  if (roomNameInput.value === "") {
+    alert("Room can not be null!"); // 방 이름을 적었는지 확인
+  } else {
+    // 무슨 조건이던간에 여기가 무조건 실행됨 이 코드 비어있거나 + 중복 아닐때만으로 수정
+    roomName = roomNameInput.value;  // rooName 변수에 저장
+    socket.emit("createRoom", roomName); // 서버에 joinRoom 전송**** 여기 코드에서 접속할 때 꽉찬방일때 일반적인 disconnect만 되게 설정(현제는 sessionId까지 꺼짐ㅁㅁ)
+    divRoomConfig.classList.add("d-none"); // 숨김 처리 -> classList(d-none) : div 제거 역할
+    roomDiv.classList.remove("d-none"); // 표시 처리
+  }
+}
 
 btnRandom.onclick = () => { // 랜덤 방 입장
   // 이 코드도 무조건 실행됨 중복이거나 비어있지 않을 때만 실행
@@ -90,6 +103,75 @@ toggleCancel.onclick = () => {
   }
 }
 
+// 테이블을 업데이트할 새로운 데이터를 가져오는 함수가 있다고 가정합니다.
+function fetchDataAndUpdateTable() {
+  // 서버에서 새로운 데이터를 가져오거나 기존 데이터를 조작합니다.
+  // 예시로 newData가 업데이트된 데이터라고 가정합니다.
+  const newData = [
+    { name: "새로운 방", host: "새로운 방장", level: "새로운 LV", currentMembers: "새로운 현재인원" },
+    // 필요한 만큼 데이터를 추가합니다.
+  ];
+
+  // 테이블의 tbody 요소를 선택합니다.
+  const tableBody = document.querySelector("#selectRoom tbody");
+
+  // 테이블의 tbody 내부의 기존 행을 지웁니다.
+  tableBody.innerHTML = '';
+
+  // 새로운 데이터를 순회하며 테이블 행을 생성합니다.
+  newData.forEach(room => {
+    const newRow = document.createElement('tr');
+    newRow.innerHTML = `
+            <td>${room.name}</td>
+            <td>${room.host}</td>
+            <td>${room.level}</td>
+            <td>${room.currentMembers}</td>
+        `;
+    tableBody.appendChild(newRow);
+  });
+}
+
+// 스크롤바가 있는지 여부를 확인하고 해당 CSS 파일을 추가하는 함수
+function applyScrollbarStyles() {
+  const table = document.getElementById('selectRoom');
+  if (table.scrollHeight <= table.clientHeight) {
+    // 스크롤바가 없을 때 CSS 파일을 제거합니다.
+    const styleCSS = document.querySelector('link[href="style.css"]');
+    if (styleCSS) {
+      // style.css 파일에서 특정 CSS 규칙을 찾아서 삭제합니다.
+      const styleSheet = styleCSS.sheet;
+      const rules = styleSheet.cssRules || styleSheet.rules;
+      for (let i = 0; i < rules.length; i++) {
+        if (
+            rules[i].selectorText === 'th:nth-child(1)' ||
+            rules[i].selectorText === 'th:nth-child(2)' ||
+            rules[i].selectorText === 'th:nth-child(3)' ||
+            rules[i].selectorText === 'th:nth-child(4)'
+        ) {
+          styleSheet.deleteRule(i);
+          i--; // 삭제 후 인덱스 보정
+        }
+      }
+    }
+  }
+}
+
+
+toggleRefresh.addEventListener('click', () => {
+  // 업데이트된 데이터를 가져와서 테이블을 업데이트하는 함수를 호출합니다.
+  fetchDataAndUpdateTable();
+  applyScrollbarStyles();
+});
+
+// 페이지 로드 시 스크롤바 여부에 따라 CSS를 적용합니다.
+window.addEventListener('load', () => {
+  applyScrollbarStyles();
+});
+
+// 윈도우 크기 변경 시 스크롤바 여부에 따라 CSS를 적용합니다.
+window.addEventListener('resize', () => {
+  applyScrollbarStyles();
+});
 
 const handleSocketEvent = (eventName, callback) => socket.on(eventName,
     callback); // 아래 여러 핸들 소켓 이벤트들을 처리하기 위해 정의 // 첫번째 eventName, callback은 이름 정의 두번째는 호출
@@ -207,12 +289,12 @@ handleSocketEvent("setCaller", callerId => {
 });
 
 handleSocketEvent("full", e => {
-  alert("room is full!");
+  alert("인원 초과!");
   window.location.reload();
 });
 
 handleSocketEvent("empty", e => {
-  alert("생성 돼 있는 방이 없음");
+  alert("생성 돼 있는 방이 없음!");
   window.location.reload();
 });
 
@@ -233,3 +315,5 @@ const onAddStream = e => {
   remoteVideo.srcObject = e.streams[0];
   remoteStream = e.stream;
 }
+
+

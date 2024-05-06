@@ -24,6 +24,12 @@
 <!--div 새로 하나 만들어서 감싸고 js에 roomConfig 말고 새로 만든 div id 값으로 넣기-->
 <div id="roomConfig">
 <div id="roomConfig2" class="d-flex justify-content-center mb-3">
+
+  <button id="toggleRefresh" class="btn-arrow enabled-style">
+    <i id="refreshIcon" class="bi bi-arrow-clockwise"></i>
+  </button>
+
+  &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
   <div class="input-group input-group-lg" style="max-width: 400px">
     <input
             id="roomName"
@@ -34,26 +40,170 @@
     <button id="btnConnect" class="btn btn-primary btn-lg" type="button">
       입장하기
     </button>
-    <button id="btnRandom" class="btn btn-primary btn-lg" type="button">
-      랜덤매칭
+    <button id="btnCreate" class="btn btn-primary btn-lg" type="button">
+      방만들기
     </button>
+
   </div>
+  &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+  <button id="btnRandom" class="btn btn-primary btn-lg" type="button">
+    랜덤매칭
+  </button>
+
 </div>
-<!--추가적으로 여기서 테이블 넣으면 됨-->
-<!--<table id="selectRoom" class="" width="400" height="150" style="margin: 0 auto; border-collapse: collapse; border: 2px solid #858585;">-->
-<!--  <tr>-->
-<!--    <th scope="col" style="text-align: center; border: 2px solid #858585;">방번호</th>-->
-<!--    <th scope="col" style="text-align: center; border: 2px solid #858585;">현재인원</th>-->
-<!--  </tr>-->
-<!--  <tr>-->
-<!--    <td id="room1" style="text-align: center; border: 2px solid #858585;">&nbsp;</td>-->
-<!--    <td id="human1" style="text-align: center; border: 2px solid #858585;">&nbsp;</td>-->
-<!--  </tr>-->
-<!--  <tr>-->
-<!--    <td id="room2" style="text-align: center; border: 2px solid #858585;">&nbsp;</td>-->
-<!--    <td id="human2" style="text-align: center; border: 2px solid #858585;">&nbsp;</td>-->
-<!--  </tr>-->
-<!--</table>-->
+
+
+
+<table id="selectRoom" class="scrolltable" style="margin: 0 auto; ">
+  <thead>
+  <tr>
+    <th>방 이름</th>
+    <th>방장</th>
+    <th>LV</th>
+    <th>현재인원</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr>
+    <td>행1열1</td>
+    <td>행1열2</td>
+    <td>행1열3</td>
+    <td>행1열4</td>
+  </tr>
+  <tr>
+    <td>행2열1</td>
+    <td>행2열2</td>
+    <td>행2열3</td>
+    <td>행2열4</td>
+  </tr>
+  <tr>
+    <td>행3열1</td>
+    <td>행3열2</td>
+    <td>행3열3</td>
+    <td>행3열4</td>
+  </tr>
+  <tr>
+    <td>행4열1</td>
+    <td>행4열2</td>
+    <td>행4열3</td>
+    <td>행4열4</td>
+  </tr>
+  <tr>
+    <td>행5열1</td>
+    <td>행5열2</td>
+    <td>행5열3</td>
+    <td>행5열4</td>
+  </tr>
+  <tr>
+    <td>행6열1</td>
+    <td>행6열2</td>
+    <td>행6열3</td>
+    <td>행6열4</td>
+  </tr>
+  <tr>
+    <td>행7열1</td>
+    <td>행7열2</td>
+    <td>행7열3</td>
+    <td>행7열4</td>
+  </tr>
+  <tr>
+    <td>행8열1</td>
+    <td>행8열2</td>
+    <td>행8열3</td>
+    <td>행8열4</td>
+  </tr>
+  <tr>
+    <td>행9열1</td>
+    <td>행9열2</td>
+    <td>행9열3</td>
+    <td>행9열4</td>
+  </tr>
+  <tr>
+    <td>행10열1</td>
+    <td>행10열2</td>
+    <td>행10열3</td>
+    <td>행10열4</td>
+  </tr>
+  <tr>
+    <td>행10열1</td>
+    <td>행10열2</td>
+    <td>행10열3</td>
+    <td>행10열4</td>
+  </tr>
+  <tr>
+    <td>행10열1</td>
+    <td>행10열2</td>
+    <td>행10열3</td>
+    <td>행10열4</td>
+  </tr>
+  <tr>
+    <td>행10열1</td>
+    <td>행10열2</td>
+    <td>행10열3</td>
+    <td>행10열4</td>
+  </tr>
+  <tr>
+    <td>행10열1</td>
+    <td>행10열2</td>
+    <td>행10열3</td>
+    <td>행10열4</td>
+  </tr>
+  <tr>
+    <td>행10열1</td>
+    <td>행10열2</td>
+    <td>행10열3</td>
+    <td>행10열4</td>
+  </tr>
+  <tr>
+    <td>행10열1</td>
+    <td>행10열2</td>
+    <td>행10열3</td>
+    <td>행10열4</td>
+  </tr>
+  <tr>
+    <td>행10열1</td>
+    <td>행10열2</td>
+    <td>행10열3</td>
+    <td>행10열4</td>
+  </tr>
+  <tr>
+    <td>행10열1</td>
+    <td>행10열2</td>
+    <td>행10열3</td>
+    <td>행10열4</td>
+  </tr>
+  <tr>
+    <td>행10열1</td>
+    <td>행10열2</td>
+    <td>행10열3</td>
+    <td>행10열4</td>
+  </tr>
+  <tr>
+    <td>행10열1</td>
+    <td>행10열2</td>
+    <td>행10열3</td>
+    <td>행10열4</td>
+  </tr>
+  <tr>
+    <td>행10열1</td>
+    <td>행10열2</td>
+    <td>행10열3</td>
+    <td>행10열4</td>
+  </tr>
+  <tr>
+    <td>행10열1</td>
+    <td>행10열2</td>
+    <td>행10열3</td>
+    <td>행10열4</td>
+  </tr>
+  <tr>
+    <td>행10열1</td>
+    <td>행10열2</td>
+    <td>행10열3</td>
+    <td>행10열4</td>
+  </tr>
+  </tbody>
+</table>
 </div>
 
 

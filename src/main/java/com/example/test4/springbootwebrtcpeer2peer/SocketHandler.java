@@ -70,26 +70,47 @@ public class SocketHandler {
     printLog("onDisconnect", client, room); // 로그 출력
   }
 
-  // 클라이언트가 방에 참가할 때 호출되는 메서드
-  @OnEvent("joinRoom") // 단순히 방 참여 했을 때 호출 되는 메서드
-  public void onJoinRoom(SocketIOClient client, String room) {
+  // 클라이언트가 방에 생성 때 호출되는 메서드
+  @OnEvent("createRoom") // 단순히 방 참여 했을 때 호출 되는 메서드
+  public void onCreateRoom(SocketIOClient client, String room) {
     int connectedClients = server.getRoomOperations(room).getClients().size(); // 해당 방에 연결된 클라이언트 수 확인
+
     if (connectedClients == 0) { // 방에 클라이언트가 없는 경우
+
       client.joinRoom(room); // 방에 클라이언트를 추가
       client.sendEvent("created", room); // 클라이언트에게 'created' 이벤트 전송
       users.put(client.getSessionId().toString(), room); // 사용자 맵에 클라이언트 추가
       rooms.put(room, client.getSessionId().toString()); // 방 맵에 방과 클라이언트 아이디 추가
 
+    } else { // 방에 클라이언트가 이미 두 명 있는 경우
+
+      client.sendEvent("full", room); // 클라이언트에게 'full' 이벤트 전송
+    }
+  }
+
+  // 클라이언트가 방에 참가할 때 호출되는 메서드
+  @OnEvent("joinRoom") // 단순히 방 참여 했을 때 호출 되는 메서드
+  public void onJoinRoom(SocketIOClient client, String room) {
+    int connectedClients = server.getRoomOperations(room).getClients().size(); // 해당 방에 연결된 클라이언트 수 확인
+    if (connectedClients == 0) { // 방에 클라이언트가 없는 경우
+
+      client.sendEvent("empty", (Object) null); // 클라이언트에게 'empty' 이벤트 전송
+
     } else if (connectedClients == 1) { // 방에 클라이언트가 한 명 있는 경우
+
       client.joinRoom(room); // 방에 클라이언트를 추가
       client.sendEvent("joined", room); // 클라이언트에게 'joined' 이벤트 전송
       users.put(client.getSessionId().toString(), room); // 사용자 맵에 클라이언트 추가
       client.sendEvent("setCaller", rooms.get(room)); // 클라이언트에게 'setCaller' 이벤트 전송
+
     } else { // 방에 클라이언트가 이미 두 명 있는 경우
+
       client.sendEvent("full", room); // 클라이언트에게 'full' 이벤트 전송
+
     }
-    printLog("onReady", client, room); // 로그 출력
   }
+
+
 
   @OnEvent("randomRoom")
   public void onRandomRoom(SocketIOClient client) {

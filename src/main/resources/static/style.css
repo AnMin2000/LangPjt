@@ -11,6 +11,18 @@
   line-height: 1.3px;
 }
 
+.btn-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 37px;
+  height: 37px;
+  margin: 5px;
+  border-radius: 50%;
+  border: none;
+  line-height: 30px;
+}
+
 .bi {
   font-size: 20px;
   color: white;
@@ -21,12 +33,67 @@
   color: white;
 }
 
+.bi.bi-arrow-clockwise{
+  font-size: 20px;
+  color: white;
+}
+
 .enabled-style {
   background-color: #008cff;
 }
-
 
 .disabled-style {
   background-color: #af2b2b;
 }
 
+.scrolltable{
+  table-layout: fixed;
+  border-collapse: collapse;
+  border: 1px solid rgba(0, 0, 0, 0);
+}
+.scrolltable thead {
+  display:block;
+  background: #eae7e7;
+  color: #000000;
+}
+.scrolltable tbody{
+  display:block;
+  overflow:auto;
+  height:700px;   /* 이게 열의 전체적인 가로 길이임 */
+  width:100%;
+}
+/* 행 장식 */
+.scrolltable th, .scrolltable td {
+  padding: 10px;
+  text-align: left;
+  width: 200px;     /* 이게 행의 전체적인 가로 길이임 */
+  text-align: center;
+  font-size: 0.875em;
+}
+.scrolltable tbody tr:nth-child(2n+1){
+  background-color: #f0f0f0;
+}
+
+.scrolltable ::-webkit-scrollbar {
+  display: block;
+}
+.scrolltable ::-webkit-scrollbar-track, ::-webkit-scrollbar-button {
+  display: none;
+}
+.scrolltable ::-webkit-scrollbar-thumb {
+  background-color: #e1dedf;
+  border-radius: 100px;
+}
+
+th:nth-child(1) {
+  padding-right: 2%; /* 방 이름을 왼쪽으로 1픽셀 이동 */
+}
+th:nth-child(2) {
+  padding-right: 3%; /* 방장을 왼쪽으로 2픽셀 이동 */
+}
+th:nth-child(3) {
+  padding-right: 4%; /* LV를 왼쪽으로 3픽셀 이동 */
+}
+th:nth-child(4) {
+  padding-right: 5%; /* 현재인원을 왼쪽으로 4픽셀 이동 */
+}
