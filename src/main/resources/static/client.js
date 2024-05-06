@@ -55,17 +55,19 @@ btnConnect.onclick = () => { // 방생성 + 방입장
   if (roomNameInput.value === "") {
     alert("Room can not be null!"); // 방 이름을 적었는지 확인
   } else {
+    // 무슨 조건이던간에 여기가 무조건 실행됨 이 코드 비어있거나 + 중복 아닐때만으로 수정
     roomName = roomNameInput.value;  // rooName 변수에 저장
-    socket.emit("joinRoom", roomName); // 서버에 joinRoom 전송
+    socket.emit("joinRoom", roomName); // 서버에 joinRoom 전송**** 여기 코드에서 접속할 때 꽉찬방일때 일반적인 disconnect만 되게 설정(현제는 sessionId까지 꺼짐ㅁㅁ)
     divRoomConfig.classList.add("d-none"); // 숨김 처리 -> classList(d-none) : div 제거 역할
     roomDiv.classList.remove("d-none"); // 표시 처리
   }
 };
 
 btnRandom.onclick = () => { // 랜덤 방 입장
+  // 이 코드도 무조건 실행됨 중복이거나 비어있지 않을 때만 실행
     socket.emit("randomRoom"); // 서버에 joinRoom 전송
 
-  // 클라이언트 측 코드
+  // // 클라이언트 측 코드
   socket.on("joined", (roomNum) => {   // 'joined' 이벤트를 수신하고 roomNum을 설정합니다.
     roomName = roomNum; // 서버에서 보낸 roomNum을 roomName에 저장
   });

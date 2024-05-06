@@ -97,7 +97,6 @@ public class SocketHandler {
     String roomNum;
     boolean isRoomsEmpty = rooms.isEmpty(); // 비어있으면 true, 존재하면 false
     boolean check = false;
-
     if(isRoomsEmpty){
       client.sendEvent("empty", (Object) null);
     }
@@ -105,7 +104,7 @@ public class SocketHandler {
       for (Map.Entry<String, String> entrySet : rooms.entrySet()) {
         roomNum = entrySet.getKey();
         connectedClients = server.getRoomOperations(roomNum).getClients().size(); // 해당 방에 연결된 클라이언트 수 확인
-        System.out.println("사람 인원 테스트 : " + connectedClients + "방 번호 : " + roomNum);
+        System.out.println("방 번호 : " + roomNum +", 사람 인원 테스트 : " + connectedClients );
         if (connectedClients == 1) {
           client.joinRoom(roomNum); // 방에 클라이언트를 추가 ------------> 아래쪽 어딘가 문제가 있음
           client.sendEvent("joined", roomNum); // 클라이언트에게 'joined' 이벤트 전송
