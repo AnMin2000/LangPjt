@@ -197,7 +197,12 @@ function updateTable() {
 
     // 행 클릭 시 해당 value 값을 콘솔에 출력하는 이벤트 리스너 추가
     newRow.addEventListener('click', () => {
-      console.log(room.name);
+
+      roomName = room.name.toString();  // rooName 변수에 저장
+      socket.emit("joinRoom", roomName); // 서버에 joinRoom 전송**** 여기 코드에서 접속할 때 꽉찬방일때 일반적인 disconnect만 되게 설정(현제는 sessionId까지 꺼짐ㅁㅁ)
+      divRoomConfig.classList.add("d-none"); // 숨김 처리 -> classList(d-none) : div 제거 역할
+      roomDiv.classList.remove("d-none"); // 표시 처리
+
     });
 
     newRow.classList.add('cursor-pointer');
