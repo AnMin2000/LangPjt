@@ -97,20 +97,52 @@ toggleCancel.onclick = () => {
 
     // 사용자가 "예"를 선택한 경우
     socket.emit("leaveRoom", roomName); // 서버에 leaveRoom 이벤트 전송
-    socket.emit("onDisconnect")
+    socket.emit("onDisconnect");
     roomName = null; // 나가면 room 번호 초기화
     location.reload(); // 페이지 새로고침
   }
 }
 
+
+let usersMap;
+let newData;
+
 // 테이블을 업데이트할 새로운 데이터를 가져오는 함수가 있다고 가정합니다.
 function fetchDataAndUpdateTable() {
   // 서버에서 새로운 데이터를 가져오거나 기존 데이터를 조작합니다.
   // 예시로 newData가 업데이트된 데이터라고 가정합니다.
-  const newData = [
-    { name: "새로운 방", host: "새로운 방장", level: "새로운 LV", currentMembers: "새로운 현재인원" },
-    // 필요한 만큼 데이터를 추가합니다.
-  ];
+
+  socket.emit("printRoom");
+  socket.on('printRoom', (data) => {
+
+    try {
+      // JSON 문자열을 객체로 파싱
+      const parsedData = JSON.parse(data);
+      // 객체를 Map 객체로 변환
+      usersMap = new Map(Object.entries(parsedData));
+
+      // Map 객체의 키들을 얻음
+      const keys = Array.from(usersMap.keys());
+
+      // 새로운 데이터를 담을 배열
+      newData = [];
+
+      // 키를 순회하면서 newData 배열에 객체를 추가
+      keys.forEach((key) => {
+        newData.push({
+          name: key,
+          host: "새로운 방장",
+          level: "새로운 LV",
+          currentMembers: "새로운 현재인원"
+        });
+      });
+
+      console.log(newData);
+    } catch (e) {
+      console.error("Error parsing data:", e);
+    }
+  });
+
 
   // 테이블의 tbody 요소를 선택합니다.
   const tableBody = document.querySelector("#selectRoom tbody");
@@ -165,11 +197,13 @@ toggleRefresh.addEventListener('click', () => {
 
 // 페이지 로드 시 스크롤바 여부에 따라 CSS를 적용합니다.
 window.addEventListener('load', () => {
+  fetchDataAndUpdateTable();
   applyScrollbarStyles();
 });
 
 // 윈도우 크기 변경 시 스크롤바 여부에 따라 CSS를 적용합니다.
 window.addEventListener('resize', () => {
+  fetchDataAndUpdateTable();
   applyScrollbarStyles();
 });
 

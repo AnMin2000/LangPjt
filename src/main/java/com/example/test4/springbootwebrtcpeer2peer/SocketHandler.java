@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -20,7 +21,7 @@ import org.springframework.stereotype.Component;
 public class SocketHandler {
 
   private final SocketIOServer server; // Socket.IO 서버를 사용하기 위한 인스턴스
-  private static final Map<String, String> users = new HashMap<>(); // 사용자 정보를 저장하기 위한 맵
+  private static final Map<String, String> users = new HashMap<>(); // 사용자 정보를 저장하기 위한 맵 --> 유저 ID, 방 번호
   private static final Map<String, String> rooms = new HashMap<>(); // 방 정보를 저장하기 위한 맵
 
   // 생성자
@@ -110,7 +111,17 @@ public class SocketHandler {
     }
   }
 
-
+  @OnEvent("printRoom")
+  public void onPrintRoom(SocketIOClient client) {
+    try {
+      ObjectMapper objectMapper = new ObjectMapper();
+      String jsonString = objectMapper.writeValueAsString(users);
+      client.sendEvent("printRoom", jsonString);
+      System.out.println("printRoom 성공, user 맵 정보 : " + users);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
 
   @OnEvent("randomRoom")
   public void onRandomRoom(SocketIOClient client) {
