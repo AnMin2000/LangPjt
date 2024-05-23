@@ -106,6 +106,7 @@ toggleCancel.onclick = () => {
 
 let usersMap;
 let newData;
+let previousValues = new Map();
 
 // 테이블을 업데이트할 새로운 데이터를 가져오는 함수가 있다고 가정합니다.
 function fetchDataAndUpdateTable() {
@@ -127,23 +128,57 @@ function fetchDataAndUpdateTable() {
       // 새로운 데이터를 담을 배열
       newData = [];
 
+      // 현재 사용 중인 값들을 추적
+      let currentValues = new Map();
+
       // 키를 순회하면서 newData 배열에 객체를 추가
       keys.forEach((key) => {
-        newData.push({
-          name: key,
-          host: "새로운 방장",
-          level: "새로운 LV",
-          currentMembers: "새로운 현재인원"
-        });
+        const value = usersMap.get(key);
+        if (value !== null) {
+          // 현재 처리 중인 값 추적
+          currentValues.set(value, key);
+
+          // newData 배열에서 동일한 value 값을 가진 객체가 있는지 확인
+          const existingEntry = newData.find(entry => entry.name === value);
+          if (existingEntry) {
+            // 동일한 value 값이 존재하면 currentMembers 값을 "X"로 변경
+            existingEntry.currentMembers = "X";
+          } else {
+            // 동일한 value 값이 없으면 새로운 객체를 추가
+            newData.push({
+              name: value,
+              host: key,
+              level: "새로운 LV",
+              currentMembers: "○"
+            });
+          }
+        }
       });
 
+      // 이전에 존재했던 값들 중 현재 존재하지 않는 값들을 처리
+      previousValues.forEach((key, value) => {
+        if (!currentValues.has(value)) {
+          // newData 배열에서 해당 값을 찾아 currentMembers 값을 "○"로 변경
+          const entry = newData.find(entry => entry.name === value);
+          if (entry) {
+            entry.currentMembers = "○";
+          }
+        }
+      });
+
+      // 현재 값들을 이전 값으로 저장
+      previousValues = currentValues;
+
+      updateTable();
       console.log(newData);
     } catch (e) {
       console.error("Error parsing data:", e);
     }
   });
+}
 
-
+// 테이블을 업데이트하는 함수
+function updateTable() {
   // 테이블의 tbody 요소를 선택합니다.
   const tableBody = document.querySelector("#selectRoom tbody");
 
@@ -154,13 +189,22 @@ function fetchDataAndUpdateTable() {
   newData.forEach(room => {
     const newRow = document.createElement('tr');
     newRow.innerHTML = `
-            <td>${room.name}</td>
-            <td>${room.host}</td>
-            <td>${room.level}</td>
-            <td>${room.currentMembers}</td>
-        `;
+      <td>${room.name}</td>
+      <td>${room.host}</td>
+      <td>${room.level}</td>
+      <td>${room.currentMembers}</td>
+    `;
+
+    // 행 클릭 시 해당 value 값을 콘솔에 출력하는 이벤트 리스너 추가
+    newRow.addEventListener('click', () => {
+      console.log(room.name);
+    });
+
+    newRow.classList.add('cursor-pointer');
+
     tableBody.appendChild(newRow);
   });
+  applyScrollbarStyles();
 }
 
 // 스크롤바가 있는지 여부를 확인하고 해당 CSS 파일을 추가하는 함수
