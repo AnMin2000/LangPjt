@@ -97,6 +97,24 @@ th:nth-child(3) {
 th:nth-child(4) {
   padding-right: 5%; /* 현재인원을 왼쪽으로 4픽셀 이동 */
 }
-.cursor-pointer {
+
+.enter-btn {
+  background-color: #0d6efd; /* Green */
+  border: none;
+  color: white;
+  padding: 4px 15px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 15px;
+  margin: 4px 2px;
   cursor: pointer;
+  border-radius: 4px;
+}
+.noEnter {
+  color: #ff0000;
+  text-align: center;
+  text-decoration: none;
+  margin: 4px 2px;  /* 위 아래 4px, 양옆 2px */
+  font-weight: bold; /* 글자를 두껍게 만든다. */
 }

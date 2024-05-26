@@ -103,7 +103,6 @@ toggleCancel.onclick = () => {
   }
 }
 
-
 let usersMap;
 let newData;
 let previousValues = new Map();
@@ -147,7 +146,7 @@ function fetchDataAndUpdateTable() {
             // 동일한 value 값이 없으면 새로운 객체를 추가
             newData.push({
               name: value,
-              host: key,
+              host: currentValues.get(value), // 현재 값의 host를 사용
               level: "새로운 LV",
               currentMembers: "○"
             });
@@ -192,20 +191,21 @@ function updateTable() {
       <td>${room.name}</td>
       <td>${room.host}</td>
       <td>${room.level}</td>
-      <td>${room.currentMembers}</td>
+      <td>${room.currentMembers === "○" ? "<button class='enter-btn'>입장하기</button>" : "<p class='noEnter'>입장불가</p>"}</td>
     `;
 
-    // 행 클릭 시 해당 value 값을 콘솔에 출력하는 이벤트 리스너 추가
-    newRow.addEventListener('click', () => {
+    // "입장하기" 버튼 클릭 시 콘솔에 "print 성공" 로그를 출력하는 이벤트 리스너 추가
+    const enterBtn = newRow.querySelector('.enter-btn');
+    if (enterBtn) {
+      enterBtn.addEventListener('click', (event) => {
+        event.stopPropagation(); // 이벤트 전파 방지
+        roomName = room.name.toString();  // rooName 변수에 저장
+        socket.emit("joinRoom", roomName); // 서버에 joinRoom 전송**** 여기 코드에서 접속할 때 꽉찬방일때 일반적인 disconnect만 되게 설정(현제는 sessionId까지 꺼짐ㅁㅁ)
+        divRoomConfig.classList.add("d-none"); // 숨김 처리 -> classList(d-none) : div 제거 역할
+        roomDiv.classList.remove("d-none"); // 표시 처리
 
-      roomName = room.name.toString();  // rooName 변수에 저장
-      socket.emit("joinRoom", roomName); // 서버에 joinRoom 전송**** 여기 코드에서 접속할 때 꽉찬방일때 일반적인 disconnect만 되게 설정(현제는 sessionId까지 꺼짐ㅁㅁ)
-      divRoomConfig.classList.add("d-none"); // 숨김 처리 -> classList(d-none) : div 제거 역할
-      roomDiv.classList.remove("d-none"); // 표시 처리
-
-    });
-
-    newRow.classList.add('cursor-pointer');
+      });
+    }
 
     tableBody.appendChild(newRow);
   });
