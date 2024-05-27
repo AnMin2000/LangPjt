@@ -35,6 +35,7 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
     implementation 'com.corundumstudio.socketio:netty-socketio:1.7.23'
+    developmentOnly("org.springframework.boot:spring-boot-devtools")
 }
 
 tasks.named('test') {

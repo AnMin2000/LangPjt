@@ -1,0 +1,65 @@
+.cylinder {
+    border: none; /* 태두리 투명 */
+    padding: 10px; /* 모양을 개선하기 위해 안쪽에 여백을 추가합니다 */
+    width: 1900px; /* 원하는 너비를 설정합니다 */
+    height: 50px; /* 원하는 세로 길이를 설정합니다 */
+    background-color: #0d6efd; /* 박스의 배경색 */
+    overflow: visible; /* 내용이 넘칠 경우를 대비하여 숨김 처리합니다 */
+    margin: 0 auto; /* 가운데 정렬 */
+    position: fixed; /* 화면의 맨 위에 고정 */
+    top: 0; /* 상단에 붙입니다 */
+    left: 0; /* 좌측에 붙입니다 */
+    right: 0; /* 우측에 붙입니다 */
+
+}
+.mainLogo {
+    height: 50px; /* 이미지 높이를 조정합니다 */
+    position: absolute; /* 절대 위치를 사용합니다 */
+    left: 90px; /* 좌측에서 50px 떨어진 위치에 배치합니다 */
+    top: 50%; /* 상단에서 50% 떨어진 위치에 배치합니다 */
+    transform: translateY(-50%); /* 이미지를 수직 중앙으로 정렬합니다 */
+}
+.text {
+    color: white; /* 텍스트 색상 */
+    font-size: 25px; /* 텍스트 크기 */
+    position: absolute; /* 절대 위치를 사용합니다 */
+    left: 150px; /* 좌측에서 50px 떨어진 위치에 배치합니다 */
+    top: 50%; /* 상단에서 50% 떨어진 위치에 배치합니다 */
+    font-weight: bold; /* 텍스트를 굵게 표시합니다 */
+    transform: translateY(-50%); /* 이미지를 수직 중앙으로 정렬합니다 */
+    font-family: Arial, sans-serif; /* 폰트 설정 */
+}
+.bi.bi-list {
+    color: white;
+    position: absolute;
+    left: 20px;
+    top: 45%;
+    transform: translateY(-50%); /* 이미지를 수직 중앙으로 정렬합니다 */
+    font-size: 40px; /* 아이콘 크기를 키웁니다. 적절한 크기로 변경하세요 */
+}
+#sideMenu {
+    /* 기존 스타일 유지 */
+    width: 200px;
+    background-color: #ffffff;
+    position: fixed;
+    top: 0;
+    left: -200px; /* 우측에서 좌측으로 이동 */
+    height: 100%;
+    visibility: hidden; /* 처음에는 메뉴를 숨김 */
+    transition: left 0.5s ease; /* 트랜지션 속성 */
+}
+
+/* 메뉴가 보일 때 */
+#sideMenu.visible {
+    left: 0; /* 좌측 위치를 0으로 변경하여 메뉴를 보이게 함 */
+    visibility: visible; /* 메뉴를 보이게 함 */
+    transition: left 1s ease; /* 닫힐 때 트랜지션 지속 시간을 더 길게 설정 */
+}
+
+
+
+
+/* 아이콘 스타일링 */
+.bi-list {
+    cursor: pointer;
+}
