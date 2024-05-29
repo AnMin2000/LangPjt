@@ -56,10 +56,125 @@
     transition: left 1s ease; /* 닫힐 때 트랜지션 지속 시간을 더 길게 설정 */
 }
 
-
-
-
 /* 아이콘 스타일링 */
 .bi-list {
     cursor: pointer;
 }
+.rounded-box {
+    width: 600px;
+    height: 250px;
+    background-color: transparent; /* 내부 투명색 */
+    border: 2px solid #000; /* 검정색 테두리 */
+    border-radius: 20px; /* 모서리를 둥글게 설정 */
+    margin: 0 auto;
+    position: fixed;
+    top: 150px; /* cylinder의 높이 바로 아래에 위치 */
+    left: 50%;
+    transform: translateX(-50%);
+}
+.box{
+    position: fixed;
+    border: 6px solid royalblue;
+    width: 1520px;
+    height: 500px;
+    margin: 0 auto;
+    top: 500px; /* 화면 상단에서 50% 위치로 설정 */
+    left: 50%; /* 화면 좌측에서 50% 위치로 설정 */
+    transform: translatex(-50%);
+}
+.outer {
+    border: 6px solid royalblue;
+    width: 300px;
+    height: 200px;
+    transform: translatex(0%);
+    overflow-x: hidden;
+}
+
+.inner-list {
+    display: flex;
+    transition: .3s ease-out;
+    height: 100%;
+}
+
+.inner {
+    border: 6px solid olive;
+    padding: 0 16px;
+}
+.button-list {
+    bottom: 20px; /* 화면 하단에서 20px 떨어진 위치로 설정 */
+    transform: translate(6%,-2700%);
+}
+
+.outer2 {
+    border: 6px solid royalblue;
+    width: 300px;
+    height: 200px;
+    transform: translate(130%,-100%);
+    overflow-x: hidden;
+}
+
+.inner-list2 {
+    display: flex;
+    transition: .3s ease-out;
+    height: 100%;
+}
+
+.inner2 {
+    border: 6px solid olive;
+    padding: 0 16px;
+}
+
+.button-list2 {
+    bottom: 20px; /* 화면 하단에서 20px 떨어진 위치로 설정 */
+    transform: translate(33%,-2800%);
+}
+
+
+.outer3 {
+    border: 6px solid royalblue;
+    width: 300px;
+    height: 200px;
+    transform: translate(260%,-200%);
+    overflow-x: hidden;
+}
+
+.inner-list3 {
+    display: flex;
+    transition: .3s ease-out;
+    height: 100%;
+}
+
+.inner3 {
+    border: 6px solid olive;
+    padding: 0 16px;
+}
+
+.button-list3 {
+    bottom: 20px; /* 화면 하단에서 20px 떨어진 위치로 설정 */
+    transform: translate(60%,-2900%);
+}
+
+.outer4{
+    border: 6px solid royalblue;
+    width: 300px;
+    height: 200px;
+    transform: translate(390%,-300%);
+    overflow-x: hidden;
+}
+
+.inner-list4 {
+    display: flex;
+    transition: .3s ease-out;
+    height: 100%;
+}
+
+.inner4 {
+    border: 6px solid olive;
+    padding: 0 16px;
+}
+
+.button-list4 {
+    bottom: 20px; /* 화면 하단에서 20px 떨어진 위치로 설정 */
+    transform: translate(87%,-3000%);
+}
+
