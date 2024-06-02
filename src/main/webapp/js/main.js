@@ -22,8 +22,13 @@ document.addEventListener("DOMContentLoaded", function() {
         if (sideMenu.style.left === "-200px") { // 사이드 메뉴가 닫혀 있는 경우
             sideMenu.style.left = "0"; // 좌측에서 보이도록 위치 변경
             sideMenu.classList.add('visible'); // 'visible' 클래스 추가하여 보이게 함
-        } else {
+        }
+        else if(sideMenu.style.left === "0px"){
             closeSideMenu(); // 메뉴가 열려 있는 경우 닫도록 호출
+        }
+        else {
+            sideMenu.style.left = "0"; // 좌측에서 보이도록 위치 변경
+            sideMenu.classList.add('visible'); // 'visible' 클래스 추가하여 보이게 함
         }
     }
 
@@ -250,4 +255,20 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     let interval = getInterval(); // interval 등록
+});
+
+window.addEventListener('scroll', function() {
+    var cylinder = document.querySelector('.cylinder');
+    // 현재 스크롤 위치를 확인합니다.
+    var scrollY = window.scrollY;
+
+    // 스크롤이 일정 수준 이상 내려갔을 때 fixed 속성을 해제하고 absolute로 변경합니다.
+    if (scrollY > 100) {
+        cylinder.style.position = 'absolute';
+        cylinder.style.top = scrollY + 'px';
+    } else {
+        // 스크롤이 위로 올라오면 다시 fixed로 설정합니다.
+        cylinder.style.position = 'fixed';
+        cylinder.style.top = '0';
+    }
 });

@@ -1,7 +1,15 @@
+body {
+    margin: 0;
+    padding: 0;
+    height: 200vh; /* 스크롤바를 확인하기 위해 컨텐츠 높이 설정 */
+    background-color: #eae7e7;
+    overflow-x: hidden; /* 가로 스크롤바 숨기기 */
+}
+/* 고정된 요소 */
 .cylinder {
-    border: none; /* 태두리 투명 */
+    border: none; /* 테두리 투명 */
     padding: 10px; /* 모양을 개선하기 위해 안쪽에 여백을 추가합니다 */
-    width: 1900px; /* 원하는 너비를 설정합니다 */
+    width: 100%; /* 원하는 너비를 설정합니다 */
     height: 50px; /* 원하는 세로 길이를 설정합니다 */
     background-color: #0d6efd; /* 박스의 배경색 */
     overflow: visible; /* 내용이 넘칠 경우를 대비하여 숨김 처리합니다 */
@@ -10,7 +18,7 @@
     top: 0; /* 상단에 붙입니다 */
     left: 0; /* 좌측에 붙입니다 */
     right: 0; /* 우측에 붙입니다 */
-
+    z-index: 1000; /* 다른 요소 위에 나타나도록 설정 */
 }
 .mainLogo {
     height: 50px; /* 이미지 높이를 조정합니다 */
@@ -26,9 +34,10 @@
     left: 150px; /* 좌측에서 50px 떨어진 위치에 배치합니다 */
     top: 50%; /* 상단에서 50% 떨어진 위치에 배치합니다 */
     font-weight: bold; /* 텍스트를 굵게 표시합니다 */
-    transform: translateY(-50%); /* 이미지를 수직 중앙으로 정렬합니다 */
+    transform: translateY(-50%); /* 텍스트를 수직 중앙으로 정렬합니다 */
     font-family: Arial, sans-serif; /* 폰트 설정 */
 }
+/* 아이콘 스타일링 */
 .bi.bi-list {
     color: white;
     position: absolute;
@@ -37,8 +46,8 @@
     transform: translateY(-50%); /* 이미지를 수직 중앙으로 정렬합니다 */
     font-size: 40px; /* 아이콘 크기를 키웁니다. 적절한 크기로 변경하세요 */
 }
+/* 사이드 메뉴 */
 #sideMenu {
-    /* 기존 스타일 유지 */
     width: 200px;
     background-color: #ffffff;
     position: fixed;
@@ -48,14 +57,12 @@
     visibility: hidden; /* 처음에는 메뉴를 숨김 */
     transition: left 0.5s ease; /* 트랜지션 속성 */
 }
-
 /* 메뉴가 보일 때 */
 #sideMenu.visible {
     left: 0; /* 좌측 위치를 0으로 변경하여 메뉴를 보이게 함 */
     visibility: visible; /* 메뉴를 보이게 함 */
     transition: left 1s ease; /* 닫힐 때 트랜지션 지속 시간을 더 길게 설정 */
 }
-
 /* 아이콘 스타일링 */
 .bi-list {
     cursor: pointer;
@@ -67,20 +74,21 @@
     border: 2px solid #000; /* 검정색 테두리 */
     border-radius: 20px; /* 모서리를 둥글게 설정 */
     margin: 0 auto;
-    position: fixed;
+    position: absolute; /* 고정된 위치를 위해 absolute 사용 */
     top: 150px; /* cylinder의 높이 바로 아래에 위치 */
     left: 50%;
     transform: translateX(-50%);
 }
-.box{
-    position: fixed;
+.box {
+    position: absolute;
     border: 6px solid royalblue;
     width: 1520px;
-    height: 500px;
+    height: 1000px;
     margin: 0 auto;
     top: 500px; /* 화면 상단에서 50% 위치로 설정 */
     left: 50%; /* 화면 좌측에서 50% 위치로 설정 */
-    transform: translatex(-50%);
+    transform: translateX(-50%);
+
 }
 .outer {
     border: 6px solid royalblue;
@@ -178,3 +186,26 @@
     transform: translate(87%,-3000%);
 }
 
+/* 스크롤바 스타일링 */
+::-webkit-scrollbar {
+    width: 12px; /* 세로 스크롤바 너비 */
+    height: 12px; /* 가로 스크롤바 높이 */
+}
+/* 스크롤바 트랙 */
+::-webkit-scrollbar-track {
+    background: #e0e0e0;
+    border-radius: 6px;
+}
+/* 스크롤바 핸들 */
+::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 6px;
+}
+/* 스크롤바 핸들 hover 시 */
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+/* 스크롤바 코너 (가로/세로 스크롤바가 만나는 부분) */
+::-webkit-scrollbar-corner {
+    background: #e0e0e0;
+}
