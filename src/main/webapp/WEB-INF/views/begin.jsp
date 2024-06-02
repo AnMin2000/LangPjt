@@ -232,10 +232,12 @@
     </form>
     </div>
 
+<%--<image src = https://ifh.cc/g/HNcCh8.png alt="fuck u">--%>
+
 <h3>글로벌 의사소통의 시작<br>목소리로 표현하세요</h3>
 <h4>혁신적인 학습 향상률<br>AI 튜터의 강력한 도움</h4>
 <form action="/login" method="get">
-<button type="submit" class="startBtn"> <strong>시작하기</strong></button>
+    <button type="submit" class="startBtn"> <strong>시작하기</strong></button>
 </form>
 <script>
     // 버튼 클릭 이벤트 핸들러 설정

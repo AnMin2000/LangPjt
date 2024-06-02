@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class RegisterController {
@@ -37,7 +38,7 @@ public class RegisterController {
         if (state.equals(true)) {
             // 가입 성공 시
             model.addAttribute("message", "회원가입이 완료되었습니다.");
-            return "success";
+            return "begin";
         } else {
           // 가입 실패 시
            model.addAttribute("error", "회원가입에 실패했습니다.");

@@ -25,7 +25,7 @@ public class LoginController {
 
         Boolean state = loginService.login(userDto);
 
-        if(state.equals(true))  return "success";
+        if(state.equals(true))  return "main";
         else return "false";
     }
 }

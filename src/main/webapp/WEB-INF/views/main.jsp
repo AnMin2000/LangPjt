@@ -97,9 +97,14 @@
 </div>
 
 
-<div id="sideMenu">
-    <!-- 사이드 메뉴 내용 -->
-    Side Menu Content
-</div>
+    <div id="sideMenu">
+        <ul>
+            <li>Item 1</li>
+            <li class ="faceChat">화상 채팅</li>
+            <li>메뉴 2</li>
+            <li>메뉴 3</li>
+        </ul>
+    </div>
+
 </body>
 </html>
