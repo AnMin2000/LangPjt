@@ -186,6 +186,10 @@ function updateTable() {
 
   // 새로운 데이터를 순회하며 테이블 행을 생성합니다.
   newData.forEach(room => {
+
+    room.level = Math.floor(Math.random() * 5) + 1; // 임의 무작위 값 설정
+
+
     const newRow = document.createElement('tr');
     newRow.innerHTML = `
       <td>${room.name}</td>
