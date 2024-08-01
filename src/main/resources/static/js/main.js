@@ -279,3 +279,48 @@ document.addEventListener("DOMContentLoaded", function() { // webRTC로 넘어�
         window.location.href = "/webRTC";
     });
 });
+
+document.addEventListener("DOMContentLoaded", function() {
+    // 이미지 요소들을 선택합니다.
+    var images = document.querySelectorAll('.inner-list img');
+
+    // 각 이미지에 클릭 이벤트 리스너를 추가합니다.
+    images.forEach(function(image, index) {
+        image.addEventListener('click', function() {
+            console.log(index + 1); // 이미지의 인덱스 (1부터 시작) 출력
+        });
+    });
+});
+document.addEventListener("DOMContentLoaded", function() {
+    // 이미지 요소들을 선택합니다.
+    var images = document.querySelectorAll('.inner-list2 img');
+
+    // 각 이미지에 클릭 이벤트 리스너를 추가합니다.
+    images.forEach(function(image, index) {
+        image.addEventListener('click', function() {
+            console.log(index + 1); // 이미지의 인덱스 (1부터 시작) 출력
+        });
+    });
+});
+document.addEventListener("DOMContentLoaded", function() {
+    // 이미지 요소들을 선택합니다.
+    var images = document.querySelectorAll('.inner-list3 img');
+
+    // 각 이미지에 클릭 이벤트 리스너를 추가합니다.
+    images.forEach(function(image, index) {
+        image.addEventListener('click', function() {
+            console.log(index + 1); // 이미지의 인덱스 (1부터 시작) 출력
+        });
+    });
+});
+document.addEventListener("DOMContentLoaded", function() {
+    // 이미지 요소들을 선택합니다.
+    var images = document.querySelectorAll('.inner-list4 img');
+
+    // 각 이미지에 클릭 이벤트 리스너를 추가합니다.
+    images.forEach(function(image, index) {
+        image.addEventListener('click', function() {
+            console.log(index + 1); // 이미지의 인덱스 (1부터 시작) 출력
+        });
+    });
+});

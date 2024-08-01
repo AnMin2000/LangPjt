@@ -102,7 +102,7 @@ body {
 }
 .box {
     position: absolute;
-    border: 6px solid royalblue;
+    border: 6px solid rgba(65, 105, 225, 0);
     width: 1520px;
     height: 1000px;
     margin: 0 auto;
@@ -112,10 +112,11 @@ body {
 
 }
 .outer {
-    border: 6px solid royalblue;
+    border: 6px solid rgba(65, 105, 225, 0);
     width: 300px;
     height: 200px;
     transform: translatex(0%);
+    border-radius: 15px; /* 모서리를 둥글게 처리 */
     overflow-x: hidden;
 }
 
@@ -126,18 +127,29 @@ body {
 }
 
 .inner {
-
+    display: flex;      /* 수직 가운데 정렬을 위해 flex 사용 */
+    justify-content: center; /* 가로 가운데 정렬 */
+    align-items: center; /* 세로 가운데 정렬 */
+    height: 100%;        /* 부모 요소 높이에 맞춤 */
 }
+.inner img {
+    width: 300px;
+    height: 200px;
+    object-fit: cover; /* 이미지를 자르지 않고, 전체 영역을 채우도록 설정 */
+    display: block;    /* 이미지 아래 공백 제거 */
+}
+
 .button-list {
     bottom: 20px; /* 화면 하단에서 20px 떨어진 위치로 설정 */
-    transform: translate(6%,-2700%);
+    transform: translate(8%,-2700%);
 }
 
 .outer2 {
-    border: 6px solid royalblue;
+    border: 6px solid rgba(65, 105, 225, 0);
     width: 300px;
     height: 200px;
     transform: translate(130%,-100%);
+    border-radius: 15px; /* 모서리를 둥글게 처리 */
     overflow-x: hidden;
 }
 
@@ -148,21 +160,29 @@ body {
 }
 
 .inner2 {
-    border: 6px solid olive;
-    padding: 0 16px;
+    display: flex;      /* 수직 가운데 정렬을 위해 flex 사용 */
+    justify-content: center; /* 가로 가운데 정렬 */
+    align-items: center; /* 세로 가운데 정렬 */
+    height: 100%;        /* 부모 요소 높이에 맞춤 */
 }
-
+.inner2 img {
+    width: 300px;
+    height: 200px;
+    object-fit: cover; /* 이미지를 자르지 않고, 전체 영역을 채우도록 설정 */
+    display: block;    /* 이미지 아래 공백 제거 */
+}
 .button-list2 {
     bottom: 20px; /* 화면 하단에서 20px 떨어진 위치로 설정 */
-    transform: translate(33%,-2800%);
+    transform: translate(35%,-2800%);
 }
 
 
 .outer3 {
-    border: 6px solid royalblue;
+    border: 6px solid rgba(65, 105, 225, 0);
     width: 300px;
     height: 200px;
     transform: translate(260%,-200%);
+    border-radius: 15px; /* 모서리를 둥글게 처리 */
     overflow-x: hidden;
 }
 
@@ -173,20 +193,29 @@ body {
 }
 
 .inner3 {
-    border: 6px solid olive;
-    padding: 0 16px;
+    display: flex;      /* 수직 가운데 정렬을 위해 flex 사용 */
+    justify-content: center; /* 가로 가운데 정렬 */
+    align-items: center; /* 세로 가운데 정렬 */
+    height: 100%;        /* 부모 요소 높이에 맞춤 */
+}
+.inner3 img {
+    width: 300px;
+    height: 200px;
+    object-fit: cover; /* 이미지를 자르지 않고, 전체 영역을 채우도록 설정 */
+    display: block;    /* 이미지 아래 공백 제거 */
 }
 
 .button-list3 {
     bottom: 20px; /* 화면 하단에서 20px 떨어진 위치로 설정 */
-    transform: translate(60%,-2900%);
+    transform: translate(62%,-2900%);
 }
 
 .outer4{
-    border: 6px solid royalblue;
+    border: 6px solid rgba(65, 105, 225, 0);
     width: 300px;
     height: 200px;
     transform: translate(390%,-300%);
+    border-radius: 15px; /* 모서리를 둥글게 처리 */
     overflow-x: hidden;
 }
 
@@ -197,13 +226,21 @@ body {
 }
 
 .inner4 {
-    border: 6px solid olive;
-    padding: 0 16px;
+    display: flex;      /* 수직 가운데 정렬을 위해 flex 사용 */
+    justify-content: center; /* 가로 가운데 정렬 */
+    align-items: center; /* 세로 가운데 정렬 */
+    height: 100%;        /* 부모 요소 높이에 맞춤 */
+}
+.inner4 img {
+    width: 300px;
+    height: 200px;
+    object-fit: cover; /* 이미지를 자르지 않고, 전체 영역을 채우도록 설정 */
+    display: block;    /* 이미지 아래 공백 제거 */
 }
 
 .button-list4 {
     bottom: 20px; /* 화면 하단에서 20px 떨어진 위치로 설정 */
-    transform: translate(87%,-3000%);
+    transform: translate(89%,-3000%);
 }
 
 /* 스크롤바 스타일링 */
@@ -228,4 +265,33 @@ body {
 /* 스크롤바 코너 (가로/세로 스크롤바가 만나는 부분) */
 ::-webkit-scrollbar-corner {
     background: #e0e0e0;
+}
+.inner-list img {
+    cursor: pointer;
+}
+.inner-list2 img {
+    cursor: pointer;
+}
+.inner-list3 img {
+    cursor: pointer;
+}
+.inner-list4 img {
+    cursor: pointer;
+}
+.button-left, .button-right, .button-left2, .button-right2, .button-left3, .button-right3, .button-left4, .button-right4 {
+    background-color: #007bff; /* 기본 배경 색상 */
+    color: white; /* 텍스트 색상 */
+    border: none; /* 기본 테두리 제거 */
+    border-radius: 5px; /* 둥근 모서리 */
+    font-size: 16px; /* 텍스트 크기 */
+    cursor: pointer; /* 마우스 커서 손가락 모양 */
+    transition: background-color 0.3s, transform 0.3s; /* 배경색과 트랜스폼 효과 */
+}
+
+.button-left:hover, .button-left2:hover, .button-left3:hover, .button-left4:hover {
+    transform: scale(1.05); /* 호버 시 크기 확대 */
+}
+
+.button-right:hover, .button-right2:hover, .button-right3:hover, .button-right4:hover {
+    transform: scale(1.05); /* 호버 시 크기 확대 */
 }

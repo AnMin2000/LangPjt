@@ -1,0 +1,84 @@
+body {
+    margin: 0;
+    padding: 0;
+    position: relative; /* 버튼을 페이지 내에서 위치시키기 위해 relative 설정 */
+    font-family: Arial, sans-serif;
+}
+/* 버튼 스타일 */
+.button-left,
+.button-right {
+    position: absolute;
+    top: 50%; /* 페이지 상단에서 수직 중앙 위치 */
+    transform: translateY(-50%); /* 버튼을 정확히 수직 중앙에 위치시키기 */
+    background-color: #007bff; /* 기본 배경 색상 */
+    color: white; /* 텍스트 색상 */
+    border-radius: 5px; /* 둥근 모서리 */
+    font-size: 16px; /* 텍스트 크기 */
+    cursor: pointer; /* 마우스 커서 손가락 모양 */
+    border: none; /* 기본 테두리 제거 */
+    padding: 10px 15px;
+    z-index: 1000; /* 버튼이 다른 요소들 위에 위치하도록 설정 */
+}
+
+/* 왼쪽 버튼 스타일 */
+.button-left {
+    left: 0px; /* 페이지 왼쪽에서 10px 떨어진 위치 */
+}
+
+/* 오른쪽 버튼 스타일 */
+.button-right {
+    right: 0px; /* 페이지 오른쪽에서 10px 떨어진 위치 */
+}
+/* 콘텐츠 중앙에 배치 */
+.content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 400px; /* 콘텐츠 높이 설정 */
+    margin: 20px 0;
+}
+#page-content {
+    font-size: 24px;
+    color: #333;
+    text-align: center;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    width: 80%;
+}
+
+/* 페이지 번호 스타일 */
+.pagination {
+    position: fixed;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+}
+
+.pagination span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    background-color: #f0f0f0;
+    border: 2px solid rgba(140, 81, 81, 0);
+    border-radius: 50%;
+    font-size: 16px;
+    color: #007bff;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.pagination span.active {
+    background-color: #007bff;
+    color: white;
+    font-weight: bold;
+}
+
+.pagination span:hover {
+    background-color: #e0e0e0;
+}
