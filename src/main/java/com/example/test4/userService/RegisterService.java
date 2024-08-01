@@ -23,7 +23,7 @@ public class RegisterService {
         UserEntity newUser = new UserEntity();
         newUser.setId(userDto.getId());
         newUser.setPw(userDto.getPw());
-
+        newUser.setRole("Admin123");
         registerRepository.save(newUser);
         return true;
     }

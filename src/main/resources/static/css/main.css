@@ -126,8 +126,7 @@ body {
 }
 
 .inner {
-    border: 6px solid olive;
-    padding: 0 16px;
+
 }
 .button-list {
     bottom: 20px; /* 화면 하단에서 20px 떨어진 위치로 설정 */

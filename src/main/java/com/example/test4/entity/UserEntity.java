@@ -16,10 +16,9 @@ public class UserEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY) //기본키 자동생성
     private Long pin;
 
-    @Column(length = 10)
+    @Column(unique = true)
     private String id;
-    @Column(length = 10)
     private String pw;
-
+    private String role;
     // Getters and setters
 }

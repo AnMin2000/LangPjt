@@ -272,3 +272,10 @@ window.addEventListener('scroll', function() {
         cylinder.style.top = '0';
     }
 });
+
+document.addEventListener("DOMContentLoaded", function() { // webRTC로 넘어가는 코드
+    const faceChatElement = document.querySelector(".faceChat");
+    faceChatElement.addEventListener("click", function() {
+        window.location.href = "/webRTC";
+    });
+});

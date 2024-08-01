@@ -10,7 +10,7 @@ public class MainController {
     @GetMapping("/main")
     public String showMainForm() { return "main"; }
 
-    @GetMapping("/test")
+    @GetMapping("/webRTC")
     public String redirectToHome(RedirectAttributes redirectAttributes) {
         return "redirect:/";
     }

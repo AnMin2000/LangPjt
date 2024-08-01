@@ -118,3 +118,10 @@ th:nth-child(4) {
     margin: 4px 2px;  /* 위 아래 4px, 양옆 2px */
     font-weight: bold; /* 글자를 두껍게 만든다. */
 }
+.d-none {
+    display: none;
+}
+#toggleIcon {
+    margin: 0 auto 0 1270px;
+}
+
