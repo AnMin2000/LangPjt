@@ -8,7 +8,10 @@ import lombok.Setter;
 
 @Entity
 @NoArgsConstructor
-@Table(name = "SpeakTestHistoryEntity")
+@Table(name = "SpeakTestHistory",
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = {"test_paper", "user_id"})
+        })
 @Getter
 @Setter
 public class SpeakTestHistoryEntity {
@@ -17,13 +20,12 @@ public class SpeakTestHistoryEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY) //기본키 자동생성
     private Long id;
 
-    @Column(unique = true)
-    private String test_paper;
-    @Column(unique = true)
-    private String test_history;
+    @ManyToOne
+    @JoinColumn(name = "test_paper", referencedColumnName = "id")
+    private SpeakTestPaperEntity test_paper;
 
-    @ManyToOne // 다대일
-    @JoinColumn(name = "user_id", referencedColumnName = "id") //
-    private UserEntity user;
+    @ManyToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private UserEntity user_id;
     // Getters and setters
 }

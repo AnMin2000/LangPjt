@@ -16,10 +16,6 @@ public class SpeakTestPaperEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY) //기본키 자동생성
     private Long id;
 
-    @ManyToOne // 다대일
-    @JoinColumn(name = "test_paper", referencedColumnName = "id") //
-    private SpeakQuestionEntity test_paper; //
-
     private String picture;
     private String level;
     private String language;
