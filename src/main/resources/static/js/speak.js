@@ -3,6 +3,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const totalPages = 10; // 총 페이지 수
     const pageContentDiv = document.getElementById('page-content');
     const paginationDiv = document.querySelector('.pagination');
+    const submitSection = document.getElementById('submit-section');
+    const submitButton = document.getElementById('submit-button');
     let currentPage = 1;
 
     // 페이지 번호 생성
@@ -15,6 +17,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const updatePageContent = () => {
         pageContentDiv.textContent = `${currentPage}번 페이지 내용`;
+        if (currentPage === totalPages) {
+            submitSection.classList.remove('hidden');
+        } else {
+            submitSection.classList.add('hidden');
+        }
     };
 
     const updatePagination = () => {
@@ -55,4 +62,31 @@ document.addEventListener('DOMContentLoaded', () => {
             updatePagination();
         }
     });
+
+    submitButton.addEventListener('click', () => {
+        fetch('/speak', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ page: currentPage })
+        })
+            .then(response => {
+                if (response.ok) {
+                    return response.text(); // JSON이 아닐 경우 텍스트로 처리
+                }
+                throw new Error('Network response was not ok');
+            })
+            .then(text => {
+                // 서버 응답이 텍스트일 경우 처리
+                console.log(text); // 또는 적절히 처리
+                alert('Submission successfu123l!');
+            })
+            .catch(error => {
+                // 오류 처리
+                console.error('Error:', error);
+                alert('An error occurred: ' + error.message);
+            });
+    });
+
 });

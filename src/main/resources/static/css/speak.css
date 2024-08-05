@@ -82,3 +82,28 @@ body {
 .pagination span:hover {
     background-color: #e0e0e0;
 }
+/* 제출 섹션 스타일 */
+#submit-section {
+    text-align: center;
+    margin-top: 20px;
+}
+
+#submit-button {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 4px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s;
+}
+
+#submit-button:hover {
+    background-color: #218838;
+}
+/* 숨겨진 상태 */
+.hidden {
+    display: none;
+}

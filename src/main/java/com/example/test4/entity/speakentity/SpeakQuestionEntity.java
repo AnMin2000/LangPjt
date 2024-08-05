@@ -21,6 +21,7 @@ public class SpeakQuestionEntity {
         private SpeakTestPaperEntity paper_id;
         private String question;
         private String picture;
+        private int page;
         // Getters and setters
 
 }
