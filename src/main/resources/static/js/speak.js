@@ -1,9 +1,10 @@
 // script.js
 document.addEventListener('DOMContentLoaded', () => {
-    const totalPages = 10; // 총 페이지 수
+    const totalPages = 10;
     const pageContentDiv = document.getElementById('page-content');
     const paginationDiv = document.querySelector('.pagination');
     const submitSection = document.getElementById('submit-section');
+    const contentDiv = document.querySelector('.content');
     const submitButton = document.getElementById('submit-button');
     let currentPage = 1;
 
@@ -19,8 +20,10 @@ document.addEventListener('DOMContentLoaded', () => {
         pageContentDiv.textContent = `${currentPage}번 페이지 내용`;
         if (currentPage === totalPages) {
             submitSection.classList.remove('hidden');
+            contentDiv.classList.add('hidden'); // 10번 페이지일 때 content 숨기기
         } else {
             submitSection.classList.add('hidden');
+            contentDiv.classList.remove('hidden'); // 다른 페이지일 때 content 보이기
         }
     };
 
@@ -63,6 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // 제출 버튼 클릭 시 POST 요청
     submitButton.addEventListener('click', () => {
         fetch('/speak', {
             method: 'POST',
@@ -71,22 +75,14 @@ document.addEventListener('DOMContentLoaded', () => {
             },
             body: JSON.stringify({ page: currentPage })
         })
-            .then(response => {
-                if (response.ok) {
-                    return response.text(); // JSON이 아닐 경우 텍스트로 처리
-                }
-                throw new Error('Network response was not ok');
-            })
+            .then(response => response.text())
             .then(text => {
-                // 서버 응답이 텍스트일 경우 처리
                 console.log(text); // 또는 적절히 처리
-                alert('Submission successfu123l!');
+                alert('Submission successful!');
             })
             .catch(error => {
-                // 오류 처리
                 console.error('Error:', error);
                 alert('An error occurred: ' + error.message);
             });
     });
-
 });

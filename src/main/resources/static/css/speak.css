@@ -82,18 +82,24 @@ body {
 .pagination span:hover {
     background-color: #e0e0e0;
 }
-/* 제출 섹션 스타일 */
 #submit-section {
-    text-align: center;
-    margin-top: 20px;
+    font-size: 18px;
+    position: absolute;      /* Allows positioning relative to the nearest positioned ancestor (the body) */
+    top: 45%;                /* Position from the top */
+    left: 50%;               /* Position from the left */
+    transform: translate(-50%, -50%); /* Adjust position to truly center it */
+    text-align: center;      /* Center text inside the section */
+    margin-top: 20px;        /* Optional: adjust top margin if needed */
 }
-
+#submit-section p {
+    font-size: 40px; /* Larger font size for the paragraph */
+}
 #submit-button {
-    background-color: #28a745;
+    background-color: #007bff; /* Blue background color */
     color: white;
     border: none;
     padding: 10px 20px;
-    font-size: 16px;
+    font-size: 20px;
     cursor: pointer;
     border-radius: 4px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -101,8 +107,9 @@ body {
 }
 
 #submit-button:hover {
-    background-color: #218838;
+    background-color: #0056b3; /* Darker blue for hover effect */
 }
+
 /* 숨겨진 상태 */
 .hidden {
     display: none;

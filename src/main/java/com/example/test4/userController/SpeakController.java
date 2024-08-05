@@ -15,11 +15,7 @@ import java.util.Map;
 public class SpeakController {
 
     @GetMapping("/speak")
-    public String speak(@RequestParam("id") int id, Model model) {
-        // 여기에 로직을 추가하여 id에 따라 내용을 설정합니다.
-        String content = getContentForId(id);
-        model.addAttribute("content", content);
-        model.addAttribute("urlId", id);
+    public String speak() {
         return "speak";
     }
 
@@ -27,6 +23,7 @@ public class SpeakController {
     public ResponseEntity<Map<String, String>> handleSpeak() {
         Map<String, String> response = new HashMap<>();
         response.put("message", "Submission successful!");
+
         return ResponseEntity.ok(response);
     }
 
