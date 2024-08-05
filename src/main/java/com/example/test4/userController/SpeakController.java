@@ -3,6 +3,7 @@ package com.example.test4.userController;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
@@ -18,15 +19,12 @@ public class SpeakController {
 
     private String getContentForId(int id) {
         // ID에 따라 적절한 콘텐츠를 반환합니다. 예를 들어:
-        switch (id) {
-            case 1:
-                return "Content for Image 1";
-            case 2:
-                return "Content for Image 2";
+        return switch (id) {
+            case 1 -> "Content for Image 1";
+            case 2 -> "Content for Image 2";
             // 추가적인 케이스를 추가합니다.
-            default:
-                return "Default content";
-        }
+            default -> "Content for Image" + id;
+        };
     }
 }
 

@@ -15,62 +15,52 @@
     <div class="text">Tell</div>
 </div>
 <p class = "roundText">Start now!</p>
-<div class="rounded-box">
-    <a href="/speak?id=1"><img src="/image/2.6.png" alt="Slide Image 1"></a>
-</div>
+{{#firstPicture}}
+    <div class="rounded-box">
+        <a href="/speak?id={{id}}"><img src="{{picture}}" alt="Slide Image {{id}}">
+    </div>
+{{/firstPicture}}
 
-<p class = "boxText">For you!</p>
+<p class="boxText">For you!</p>
+
 <div class="box">
     <div class="outer">
         <div class="inner-list">
-            <div class="inner">
-                <a href="/speak?id=1"><img src="/image/1.1.png" alt="Slide Image 1"></a>
-            </div>
-            <div class="inner">
-                <a href="/speak?id=2"><img src="https://ifh.cc/g/JvKzL4.jpg" alt="Slide Image 2"></a>
-            </div>
-            <div class="inner">
-                <img src="https://ifh.cc/g/XrQLDL.jpg" alt="Slide Image 3">
-            </div>
+            {{#pictures1}}
+                <div class="inner">
+                    <a href="/speak?id={{id}}"><img src="{{picture}}" alt="Slide Image {{id}}"></a>
+                </div>
+            {{/pictures1}}
         </div>
     </div>
+
     <div class="outer2">
         <div class="inner-list2">
-            <div class="inner2">
-                <img src="https://ifh.cc/g/k680Fv.jpg" alt="Slide Image 1">
-            </div>
-            <div class="inner2">
-                <img src="https://ifh.cc/g/rn3qfF.jpg" alt="Slide Image 2">
-            </div>
-            <div class="inner2">
-                <img src="https://ifh.cc/g/Sbc6j0.jpg" alt="Slide Image 3">
-            </div>
+            {{#pictures2}}
+                <div class="inner2">
+                    <a href="/speak?id={{id}}"><img src="{{picture}}" alt="Slide Image {{id}}"></a>
+                </div>
+            {{/pictures2}}
         </div>
     </div>
+
     <div class="outer3">
         <div class="inner-list3">
-            <div class="inner3">
-                <img src="https://ifh.cc/g/MJYgao.jpg" alt="Slide Image 1">
-            </div>
-            <div class="inner3">
-                <img src="https://ifh.cc/g/hp5052.jpg" alt="Slide Image 2">
-            </div>
-            <div class="inner3">
-                <img src="https://ifh.cc/g/sls32B.jpg" alt="Slide Image 3">
-            </div>
+            {{#pictures3}}
+                <div class="inner3">
+                    <a href="/speak?id={{id}}"><img src="{{picture}}" alt="Slide Image {{id}}"></a>
+                </div>
+            {{/pictures3}}
         </div>
     </div>
+
     <div class="outer4">
         <div class="inner-list4">
-            <div class="inner4">
-                <img src="https://ifh.cc/g/gfGdGx.jpg" alt="Slide Image 1">
-            </div>
-            <div class="inner4">
-                <img src="https://ifh.cc/g/pQ8z2X.jpg" alt="Slide Image 2">
-            </div>
-            <div class="inner4">
-                <img src="https://ifh.cc/g/JA0cTG.jpg" alt="Slide Image 3">
-            </div>
+            {{#pictures4}}
+                <div class="inner4">
+                    <a href="/speak?id={{id}}"><img src="{{picture}}" alt="Slide Image {{id}}"></a>
+                </div>
+            {{/pictures4}}
         </div>
     </div>
 

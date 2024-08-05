@@ -20,4 +20,5 @@ public class SpeakTestPaperEntity {
     private String level;
     private String language;
     // Getters and setters
+
 }
