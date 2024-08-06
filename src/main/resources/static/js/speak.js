@@ -68,7 +68,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 제출 버튼 클릭 시 POST 요청
     submitButton.addEventListener('click', () => {
-        fetch('/speak', {
+        const urlParams = new URL(location.href).searchParams;
+
+        const id = urlParams.get('id');
+        const url = `/speak?id=${encodeURIComponent(id)}`;
+
+        if (id) {
+        fetch(url, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -84,5 +90,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.error('Error:', error);
                 alert('An error occurred: ' + error.message);
             });
+        } else {
+            // id가 존재하지 않을 때 이 코드 블록이 실행됩니다.
+            alert('ID not found in URL.');
+        }
     });
+
 });

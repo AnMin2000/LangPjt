@@ -3,6 +3,7 @@ body {
     padding: 0;
     position: relative; /* 버튼을 페이지 내에서 위치시키기 위해 relative 설정 */
     font-family: Arial, sans-serif;
+    background-color: #eae7e7;
 }
 /* 버튼 스타일 */
 .button-left,
