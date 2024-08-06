@@ -30,7 +30,7 @@ public class JoinService {
 
         data.setId(joinDTO.getUsername());
         data.setPw(bCryptPasswordEncoder.encode(joinDTO.getPassword()));
-        data.setRole("ROLE_ADMIN");
+        data.setRole("ROLE_USER");
 
 
         userRepository.save(data);
