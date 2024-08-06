@@ -18,23 +18,20 @@ public class MainController {
     @GetMapping("/main")
     public String showMainForm(Model model) {
 
-        List<?> selectedPapers = speakHistoryCheckService.quesCheck();
+        List<SpeakTestPaperEntity> selectedPapers = speakHistoryCheckService.quesCheck();
 
         // 데이터를 나누어 모델에 추가
 
-        if(!selectedPapers.isEmpty()){ // history 차 있으면
+        // ******************* List 가 빈걸로 올 수 가 없음  1번 업데이트 된 상태로 나옴 2번 새걸로 나옴 이 둘중 하나임
+       // history 가 비어 있으면 (원래는 이렇게 짜면 안됨 testpaper도 비어져있을 수도 있으므로)   <-- 이거 잘좀 짜봐
 
-            // 비지니스 로직 다 완성되면 여기 코드도 아래 처럼 채워넣어서 돌리면 됨
 
-        }
-
-        else{ // history 가 비어 있으면 (원래는 이렇게 짜면 안됨 testpaper도 비어져있을 수도 있으므로)
         model.addAttribute("firstPicture", selectedPapers.getFirst());
         model.addAttribute("pictures1", selectedPapers.subList(1, 4));  // 2번째, 3번째, 4번째
         model.addAttribute("pictures2", selectedPapers.subList(4, 7));  // 5번째, 6번째, 7번째
         model.addAttribute("pictures3", selectedPapers.subList(7, 10)); // 8번째, 9번째, 10번째
         model.addAttribute("pictures4", selectedPapers.subList(10, 13)); // 11번째, 12번째, 13번째
-        }
+
         return "main";  // 차있으면 true 비어있으면 false
     }
 
