@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Speech Highlight Example</title>
+    <style>
+        #sentence span {
+            font-size: 24px;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+        #sentence span.highlight {
+            color: red;
+        }
+        #sentence span.normal {
+            color: black;
+        }
+    </style>
+</head>
+<body>
+<div id="content">
+    <div id="sentence">
+        <span id="i" class="normal">I</span> <span id="will" class="normal">will</span> <span id="back" class="normal">back</span>
+    </div>
+    <button id="start-recognition">Start Recognition</button>
+    <button id="reset-highlight">Reset Highlight</button>
+</div>
+
+<script>
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    const recognition = new SpeechRecognition();
+
+    recognition.interimResults = true;  // Allow interim results (partial results)
+
+    recognition.onstart = function() {
+        console.log('Voice recognition started');
+    };
+
+    recognition.onresult = function(event) {
+        const results = event.results;
+        let transcript = '';
+
+        for (let i = 0; i < results.length; i++) {
+            transcript += results[i][0].transcript.toLowerCase();
+        }
+
+        console.log('Transcript:', transcript);
+        updateHighlight(transcript);
+    };
+
+    function updateHighlight(transcript) {
+        // 초기화: 모든 단어의 색을 원래대로 되돌립니다
+        document.querySelectorAll('#sentence span').forEach(span => {
+            span.classList.remove('highlight');
+            span.classList.add('normal');
+        });
+
+        // 단어별 하이라이트
+        const words = transcript.trim().split(' ');
+        const textSpans = Array.from(document.querySelectorAll('#sentence span'));
+
+        let index = 0;
+        words.forEach(word => {
+            while (index < textSpans.length && word === textSpans[index].textContent.toLowerCase()) {
+                textSpans[index].classList.add('highlight');
+                index++;
+                break;
+            }
+        });
+    }
+
+    function resetHighlight() {
+        document.querySelectorAll('#sentence span').forEach(span => {
+            span.classList.remove('highlight');
+            span.classList.add('normal');
+        });
+    }
+
+    document.getElementById('start-recognition').addEventListener('click', function() {
+        recognition.start();
+    });
+
+    document.getElementById('reset-highlight').addEventListener('click', function() {
+        resetHighlight();
+    });
+</script>
+</body>
+</html>

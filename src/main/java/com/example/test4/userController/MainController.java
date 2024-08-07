@@ -21,9 +21,6 @@ public class MainController {
         List<SpeakTestPaperEntity> selectedPapers = speakHistoryCheckService.quesCheck();
 
         // 데이터를 나누어 모델에 추가
-
-        // 다 개소리고 그냥 받아와서 쓰면 됨 어차피 List 형식이 testPaper 일 수밖에 없음
-
         model.addAttribute("firstPicture", selectedPapers.getFirst());
         model.addAttribute("pictures1", selectedPapers.subList(1, 4));  // 2번째, 3번째, 4번째
         model.addAttribute("pictures2", selectedPapers.subList(4, 7));  // 5번째, 6번째, 7번째

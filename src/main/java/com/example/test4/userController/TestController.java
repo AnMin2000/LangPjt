@@ -31,4 +31,10 @@ public class TestController {
 
         return "test";
     }
+
+    @GetMapping("/test2")
+    public String mainP2() {
+
+        return "test2";
+    }
 }

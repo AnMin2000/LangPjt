@@ -36,7 +36,7 @@ public class SpeakHistoryCheckService {
 
         List<SpeakTestPaperEntity> selectedPapers = new ArrayList<>();
 
-        // 추가적으로 사용자 lv에 따라서 메인 시험지에 띄울 방법을 생각해야됨 그냥 이 줄에 동일한 알고리즘 하나 추가해서 하든지 여러가지 방법?
+        // ***** lv에 따라서 대표 시험지 어떻게 처리할건지 ***********
 
         // Level 1, 상위 4개
         selectedPapers.addAll(speakTestPaperRepository.findTopNByLevel("1", userId, PageRequest.of(0, 4)));

@@ -73,27 +73,28 @@ document.addEventListener('DOMContentLoaded', () => {
         const id = urlParams.get('id');
         const url = `/speak?id=${encodeURIComponent(id)}`;
 
-        if (id) {
-        fetch(url, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ page: currentPage })
-        })
-            .then(response => response.text())
-            .then(text => {
-                console.log(text); // 또는 적절히 처리
-                alert('Submission successful!');
+            if (id) {
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ page: currentPage })
             })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('An error occurred: ' + error.message);
-            });
-        } else {
-            // id가 존재하지 않을 때 이 코드 블록이 실행됩니다.
-            alert('ID not found in URL.');
-        }
+                .then(response => response.text())
+                .then(text => {
+                    console.log(text); // 또는 적절히 처리
+                    alert('Submission successful!');
+                    window.location.href = '/main'; // '/speak' 경로로 이동
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred: ' + error.message);
+                });
+            } else {
+                // id가 존재하지 않을 때 이 코드 블록이 실행됩니다.
+                alert('ID not found in URL.');
+            }
     });
 
 });
