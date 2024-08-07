@@ -22,9 +22,7 @@ public class MainController {
 
         // 데이터를 나누어 모델에 추가
 
-        // ******************* List 가 빈걸로 올 수 가 없음  1번 업데이트 된 상태로 나옴 2번 새걸로 나옴 이 둘중 하나임
-       // history 가 비어 있으면 (원래는 이렇게 짜면 안됨 testpaper도 비어져있을 수도 있으므로)   <-- 이거 잘좀 짜봐
-
+        // 다 개소리고 그냥 받아와서 쓰면 됨 어차피 List 형식이 testPaper 일 수밖에 없음
 
         model.addAttribute("firstPicture", selectedPapers.getFirst());
         model.addAttribute("pictures1", selectedPapers.subList(1, 4));  // 2번째, 3번째, 4번째
