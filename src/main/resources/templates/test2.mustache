@@ -1,88 +1,49 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dynamic Speech Highlight Example</title>
-    <style>
-        #sentence span {
-            font-size: 24px;
-            font-weight: bold;
-            transition: color 0.3s;
-        }
-        #sentence span.highlight {
-            color: red;
-        }
-        #sentence span.normal {
-            color: black;
-        }
-    </style>
+    <title>Real-time Speech Recognition Highlighting</title>
 </head>
 <body>
 <div id="content">
-    <div id="sentence">
-        <span id="i" class="normal">I</span> <span id="will" class="normal">will</span> <span id="back" class="normal">back</span>
-    </div>
-    <button id="start-recognition">Start Recognition</button>
-    <button id="reset-highlight">Reset Highlight</button>
+    <p id="text">마이크 테스트 중입니다 가나다라 마바사 아자차카 타파하</p>
 </div>
+<button id="btn">Start Recognition</button>
 
+<script src="https://cdn.jsdelivr.net/npm/mustache@4.2.0/mustache.min.js"></script>
 <script>
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    const recognition = new SpeechRecognition();
+    const btn = document.getElementById('btn');
 
-    recognition.interimResults = true;  // Allow interim results (partial results)
+    const highlight = (text, from, to) => {
+        let replacement = highlightBackground(text.slice(from, to));
+        return text.substring(0, from) + replacement + text.substring(to);
+    }
 
-    recognition.onstart = function() {
-        console.log('Voice recognition started');
-    };
+    const highlightBackground = sample => `<span style="background-color: yellow;">${sample}</span>`;
 
-    recognition.onresult = function(event) {
-        const results = event.results;
-        let transcript = '';
+    btn.addEventListener('click', () => {
+        const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+        recognition.interimResults = true;
 
-        for (let i = 0; i < results.length; i++) {
-            transcript += results[i][0].transcript.toLowerCase();
-        }
+        let textElement = document.getElementById('text');
+        let originalText = textElement.innerText;
 
-        console.log('Transcript:', transcript);
-        updateHighlight(transcript);
-    };
+        recognition.addEventListener('result', event => {
+            const transcript = Array.from(event.results)
+                    .map(result => result[0])
+                    .map(result => result.transcript)
+                    .join('');
 
-    function updateHighlight(transcript) {
-        // 초기화: 모든 단어의 색을 원래대로 되돌립니다
-        document.querySelectorAll('#sentence span').forEach(span => {
-            span.classList.remove('highlight');
-            span.classList.add('normal');
-        });
-
-        // 단어별 하이라이트
-        const words = transcript.trim().split(' ');
-        const textSpans = Array.from(document.querySelectorAll('#sentence span'));
-
-        let index = 0;
-        words.forEach(word => {
-            while (index < textSpans.length && word === textSpans[index].textContent.toLowerCase()) {
-                textSpans[index].classList.add('highlight');
-                index++;
-                break;
+            let lastCharIndex = originalText.indexOf(transcript);
+            if (lastCharIndex !== -1) {
+                textElement.innerHTML = highlight(originalText, lastCharIndex, lastCharIndex + transcript.length);
             }
         });
-    }
 
-    function resetHighlight() {
-        document.querySelectorAll('#sentence span').forEach(span => {
-            span.classList.remove('highlight');
-            span.classList.add('normal');
-        });
-    }
+        recognition.addEventListener('end', recognition.start);  // 계속 인식
 
-    document.getElementById('start-recognition').addEventListener('click', function() {
         recognition.start();
-    });
-
-    document.getElementById('reset-highlight').addEventListener('click', function() {
-        resetHighlight();
     });
 </script>
 </body>
