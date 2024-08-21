@@ -24,7 +24,7 @@ public class SecurityConfig {
 
         http
                 .authorizeHttpRequests((auth) -> auth
-                        .requestMatchers("/test", "/login", "/loginProc", "/join", "/joinProc","/begin","/speak/**").permitAll() // 이 부분 원래 /joinProc 제거하면 안 돌아가야함 나중에 오류 해결
+                        .requestMatchers("/test", "/login", "/loginProc", "/join", "/joinProc","/begin").permitAll() // 이 부분 원래 /joinProc 제거하면 안 돌아가야함 나중에 오류 해결
                         .requestMatchers("/admin").hasRole("ADMIN")
                         .requestMatchers("/my/**").hasAnyRole("ADMIN", "USER") // 추가적인 url 은 admin, user 만 가능
                         .anyRequest().authenticated() // 기타 요청은 인증된 사용자만 접근 가능
