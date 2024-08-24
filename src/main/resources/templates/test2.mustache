@@ -30,6 +30,7 @@
         let textElement = document.getElementById('text');
         let originalText = textElement.innerText;
         let isComplete = false;
+        let finalTranscript = "";
 
         // 음성 인식 처리
         recognition.addEventListener('result', event => {
@@ -52,6 +53,7 @@
             // 인식 완료 시 하이라이트 색 변경
             if (isComplete) {
                 textElement.innerHTML = highlight(originalText, 0, originalText.length, 'lightgreen');
+                finalTranscript = transcript.trim();  // 최종 텍스트 저장
                 recognition.stop();  // 음성 인식 중지
             }
         });
@@ -85,23 +87,26 @@
                         chunks = [];
                         btn.disabled = false;
 
-                        // 녹음 데이터 서버로 전송
-                        let formData = new FormData();
-                        formData.append("audio_file", blob);
+                        // 필터링된 문장과 연동된 녹음 전송
+                        if (isComplete) {
+                            let formData = new FormData();
+                            formData.append("audio_file", blob);
+                            formData.append("transcript", finalTranscript); // 필터링된 문장 전송
 
-                        fetch(uploadURL, {
-                            method: "POST",
-                            cache: "no-cache",
-                            body: formData
-                        }).then(resp => {
-                            if (resp.status === 200) {
-                                window.location.reload(true);
-                            } else {
-                                console.error("Error:", resp);
-                            }
-                        }).catch(err => {
-                            console.error(err);
-                        });
+                            fetch(uploadURL, {
+                                method: "POST",
+                                cache: "no-cache",
+                                body: formData
+                            }).then(resp => {
+                                if (resp.status === 200) {
+                                    window.location.reload(true);
+                                } else {
+                                    console.error("Error:", resp);
+                                }
+                            }).catch(err => {
+                                console.error(err);
+                            });
+                        }
                     };
 
                     recorder.onstart = event => {
@@ -109,15 +114,14 @@
                         btn.disabled = true;
                     };
 
-                    // 녹음 시작
-                    recorder.start();
-
-                    // 음성 인식이 완료되면 녹음을 중지하도록 설정
+                    // 음성 인식 완료 시 녹음을 중지하도록 설정
                     recognition.addEventListener('result', () => {
                         if (isComplete) {
                             recorder.stop();  // 녹음 중지
                         }
                     });
+
+                    recorder.start();  // 녹음 시작
 
                 })
                 .catch(function(err) {
