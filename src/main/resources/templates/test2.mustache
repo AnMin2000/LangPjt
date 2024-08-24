@@ -13,52 +13,63 @@
 
 <script src="https://cdn.jsdelivr.net/npm/mustache@4.2.0/mustache.min.js"></script>
 <script>
+    const uploadURL = "http://127.0.0.1:5000/upload"
     const btn = document.getElementById('btn');
 
-    const highlight = (text, from, to, color) => {
-        let replacement = highlightBackground(text.slice(from, to), color);
-        return text.substring(0, from) + replacement + text.substring(to);
-    }
-
-    const highlightBackground = (sample, color) => `<span style="background-color: ${color};">${sample}</span>`;
-
     btn.addEventListener('click', () => {
-        const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-        recognition.interimResults = true;
 
-        let textElement = document.getElementById('text');
-        let originalText = textElement.innerText;
-        let isComplete = false;
+        if (!navigator.mediaDevices) {
+            console.error("getUserMedia not supported.")
+            return;
+        }
 
-        recognition.addEventListener('result', event => {
-            const transcript = Array.from(event.results)
-                    .map(result => result[0])
-                    .map(result => result.transcript)
-                    .join('');
+        const constraints = { audio: true };
 
-            let lastCharIndex = originalText.indexOf(transcript);
-            if (lastCharIndex !== -1) {
-                // 노란색으로 하이라이트
-                textElement.innerHTML = highlight(originalText, lastCharIndex, lastCharIndex + transcript.length, 'yellow');
+        navigator.mediaDevices.getUserMedia(constraints)
+                .then(function(stream) {
+                    let chunks = []
+                    let recorder = new MediaRecorder(stream);
+                    recorder.ondataavailable = event => {
+                        // Collect all the chunks of the recording in an array.
+                        chunks.push(event.data);
+                    };
+                    recorder.onstop = event => {
+                        console.log("Recording stopped.")
+                        // Create a blob with all the chunks of the recording.
+                        let blob = new Blob(chunks, { type: recorder.mimeType });
+                        chunks = [];
+                        btn.disabled = false;
 
-                // 인식된 텍스트가 원본 텍스트와 정확히 일치하는지 확인
-                if (transcript.trim() === originalText.trim()) {
-                    isComplete = true;
-                }
-            }
+                        // Create form data that contain the recording.
+                        let formData = new FormData();
+                        formData.append("audio_file", blob);
 
-            // 전체 텍스트가 인식되었으면 연한 초록색으로 변경
-            if (isComplete) {
-                textElement.innerHTML = highlight(originalText, 0, originalText.length, 'lightgreen');
-                recognition.stop();  // 인식을 중지
-            }
-        });
-
-        recognition.addEventListener('end', () => {
-            if (!isComplete) recognition.start();  // 계속 인식
-        });
-
-        recognition.start();
+                        // Send the form data to the server.
+                        fetch(uploadURL, {
+                            method: "POST",
+                            cache: "no-cache",
+                            body: formData
+                        }).then(resp => {
+                            if (resp.status === 200) {
+                                window.location.reload(true);
+                            } else {
+                                console.error("Error:", resp)
+                            }
+                        }).catch(err => {
+                            console.error(err);
+                        });
+                    };
+                    recorder.onstart = event => {
+                        console.log("Recording started.");
+                        btn.disabled = true;
+                        // Stop recording when the time is up.
+                        setTimeout(function() { recorder.stop(); }, 5000);
+                    };
+                    recorder.start();
+                })
+                .catch(function(err) {
+                    console.error(err);
+                });
     });
 </script>
 </body>
