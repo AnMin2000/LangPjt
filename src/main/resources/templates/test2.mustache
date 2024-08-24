@@ -13,13 +13,57 @@
 
 <script src="https://cdn.jsdelivr.net/npm/mustache@4.2.0/mustache.min.js"></script>
 <script>
-    const uploadURL = "http://127.0.0.1:5000/upload"
+    const uploadURL = "http://127.0.0.1:5000/upload";
     const btn = document.getElementById('btn');
 
+    const highlight = (text, from, to, color) => {
+        let replacement = highlightBackground(text.slice(from, to), color);
+        return text.substring(0, from) + replacement + text.substring(to);
+    }
+
+    const highlightBackground = (sample, color) => `<span style="background-color: ${color};">${sample}</span>`;
+
     btn.addEventListener('click', () => {
+        const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+        recognition.interimResults = true;
+
+        let textElement = document.getElementById('text');
+        let originalText = textElement.innerText;
+        let isComplete = false;
+
+        // 음성 인식 처리
+        recognition.addEventListener('result', event => {
+            const transcript = Array.from(event.results)
+                    .map(result => result[0])
+                    .map(result => result.transcript)
+                    .join('');
+
+            let lastCharIndex = originalText.indexOf(transcript);
+            if (lastCharIndex !== -1) {
+                // 하이라이트 적용
+                textElement.innerHTML = highlight(originalText, lastCharIndex, lastCharIndex + transcript.length, 'yellow');
+
+                // 전체 텍스트 일치 여부 확인
+                if (transcript.trim() === originalText.trim()) {
+                    isComplete = true;
+                }
+            }
+
+            // 인식 완료 시 하이라이트 색 변경
+            if (isComplete) {
+                textElement.innerHTML = highlight(originalText, 0, originalText.length, 'lightgreen');
+                recognition.stop();  // 음성 인식 중지
+            }
+        });
+
+        recognition.addEventListener('end', () => {
+            if (!isComplete) recognition.start();  // 음성 인식 계속
+        });
+
+        recognition.start();  // 음성 인식 시작
 
         if (!navigator.mediaDevices) {
-            console.error("getUserMedia not supported.")
+            console.error("getUserMedia not supported.");
             return;
         }
 
@@ -27,24 +71,24 @@
 
         navigator.mediaDevices.getUserMedia(constraints)
                 .then(function(stream) {
-                    let chunks = []
+                    let chunks = [];
                     let recorder = new MediaRecorder(stream);
+
+                    // 녹음 데이터 처리
                     recorder.ondataavailable = event => {
-                        // Collect all the chunks of the recording in an array.
                         chunks.push(event.data);
                     };
+
                     recorder.onstop = event => {
-                        console.log("Recording stopped.")
-                        // Create a blob with all the chunks of the recording.
+                        console.log("Recording stopped.");
                         let blob = new Blob(chunks, { type: recorder.mimeType });
                         chunks = [];
                         btn.disabled = false;
 
-                        // Create form data that contain the recording.
+                        // 녹음 데이터 서버로 전송
                         let formData = new FormData();
                         formData.append("audio_file", blob);
 
-                        // Send the form data to the server.
                         fetch(uploadURL, {
                             method: "POST",
                             cache: "no-cache",
@@ -53,24 +97,34 @@
                             if (resp.status === 200) {
                                 window.location.reload(true);
                             } else {
-                                console.error("Error:", resp)
+                                console.error("Error:", resp);
                             }
                         }).catch(err => {
                             console.error(err);
                         });
                     };
+
                     recorder.onstart = event => {
                         console.log("Recording started.");
                         btn.disabled = true;
-                        // Stop recording when the time is up.
-                        setTimeout(function() { recorder.stop(); }, 5000);
                     };
+
+                    // 녹음 시작
                     recorder.start();
+
+                    // 음성 인식이 완료되면 녹음을 중지하도록 설정
+                    recognition.addEventListener('result', () => {
+                        if (isComplete) {
+                            recorder.stop();  // 녹음 중지
+                        }
+                    });
+
                 })
                 .catch(function(err) {
                     console.error(err);
                 });
     });
+
 </script>
 </body>
 </html>
