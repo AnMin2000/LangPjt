@@ -1,0 +1,13 @@
+.hidden {
+    display: none;
+}
+#buffering {
+    position: fixed; /* 고정 위치 */
+    top: 50%; /* 수직 중앙 */
+    left: 50%; /* 수평 중앙 */
+    transform: translate(-50%, -50%); /* 중앙 정렬을 위한 보정 */
+    z-index: 1000; /* 다른 콘텐츠 위에 표시 */
+    width: 100px; /* 이미지 크기 조정 */
+    height: 100px; /* 이미지 크기 조정 */
+    display: none; /* 초기에는 숨김 */
+}
