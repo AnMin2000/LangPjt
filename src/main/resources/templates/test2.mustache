@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="eng">
+<!--ko-->
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,7 +8,7 @@
 </head>
 <body>
 <div id="content">
-    <p id="text">마이크 테스트 중입니다</p>
+    <p id="text">I want to go to house</p>
 </div>
 <button id="btn">Start Recognition</button>
 
@@ -25,6 +26,7 @@
 
     btn.addEventListener('click', () => {
         const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+        recognition.lang = 'en-US';  // 영어로 설정
         recognition.interimResults = true;
 
         let textElement = document.getElementById('text');
@@ -85,7 +87,6 @@
                         console.log("Recording stopped.");
                         let blob = new Blob(chunks, { type: recorder.mimeType });
                         chunks = [];
-                        btn.disabled = false;
 
                         // 필터링된 문장과 연동된 녹음 전송
                         if (isComplete) {
@@ -97,15 +98,26 @@
                                 method: "POST",
                                 cache: "no-cache",
                                 body: formData
-                            }).then(resp => {
-                                if (resp.status === 200) {
-                                    window.location.reload(true);
-                                } else {
-                                    console.error("Error:", resp);
-                                }
-                            }).catch(err => {
-                                console.error(err);
-                            });
+                            })
+                                    .then(resp => {
+                                        if (resp.ok) {
+                                            return resp.json();  // 응답을 JSON으로 파싱
+                                        } else {
+                                            console.error("Error:", resp);
+                                        }
+                                    })
+                                    .then(data => {
+                                        if (data) {
+                                            console.log("Received transcript:", data.transcript);
+                                            console.log("Received score:", data.score);
+                                            console.log("Received result:", data.result);
+                                            btn.disabled = false;
+                                            // 추가 처리 로직...
+                                        }
+                                    })
+                                    .catch(err => {
+                                        console.error("Fetch error:", err);
+                                    });
                         }
                     };
 
