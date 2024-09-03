@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const updatePageContent = () => {
-        pageContentDiv.textContent = `${currentPage}번 페이지 내용`;
+        pageContentDiv.textContent = `${currentPage}number page content`;
         if (currentPage === totalPages) {
             submitSection.classList.remove('hidden');
             contentDiv.classList.add('hidden'); // 10번 페이지일 때 content 숨기기

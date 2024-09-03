@@ -41,15 +41,38 @@ body {
     margin: 180px 10%;
 }
 #page-content {
-    font-size: 24px;
-    color: #333;
-    padding: 20px;
-    background-color: #007bff;
-    width: 80%;
+    font-size: 30px; /* 적당한 글씨 크기 */
+    color: #444444; /* 다크 그레이 텍스트로 부드러운 느낌 */
+    padding: 25px; /* 적당한 여백 */
+    background: linear-gradient(135deg, #f0f0f0, #d9e2ec); /* 그라데이션 배경으로 현대적인 느낌 */
+    border: 1px solid #cccccc; /* 얇은 테두리로 패널을 구분 */
+    border-radius: 15px; /* 둥근 모서리 */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1); /* 더 깊은 그림자로 입체감 강조 */
+    width: 80%; /* 기존 너비 유지 */
     display: flex;
-    align-items: center; /* Vertical centering */
-    margin: 0 auto; /* Center horizontally on the page */
+    align-items: center; /* 세로 중심 정렬 */
+    margin: 0 auto; /* 가로 중앙 정렬 */
+    line-height: 1.8; /* 넉넉한 줄 간격으로 가독성 향상 */
+    font-family: 'Georgia', serif; /* 학습 노트에 적합한 세리프 글꼴 사용 */
+    letter-spacing: 0.5px; /* 글자 간격을 약간 늘려서 시각적 여유 추가 */
 }
+
+#image-content {
+    padding: 15px; /* 적당한 패딩으로 이미지 주변에 여백을 추가 */
+    background: linear-gradient(135deg, #ffffff, #f5f7fa); /* 밝은 그라데이션 배경으로 깔끔한 느낌 */
+    border: 2px solid #dddddd; /* 약간 더 두꺼운 테두리로 이미지 강조 */
+    border-radius: 10px; /* 둥근 모서리로 부드러운 느낌 추가 */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15); /* 더 깊은 그림자로 이미지에 입체감 부여 */
+    display: flex;
+    align-items: center; /* 세로 중심 정렬 */
+    justify-content: center; /* 가로 중심 정렬 */
+    margin: 0 auto; /* 가로 중앙 정렬 유지 */
+    max-width: 100%; /* 이미지가 부모 요소를 넘지 않도록 최대 너비 설정 */
+    overflow: hidden; /* 모서리 둥근 부분에 맞춰 이미지가 잘리지 않도록 */
+}
+
+
+
 #image-content img {
     width: 800px;
     height: 600px;
