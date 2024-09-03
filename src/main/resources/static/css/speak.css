@@ -32,21 +32,29 @@ body {
 }
 /* 콘텐츠 중앙에 배치 */
 .content {
+    position: absolute;
+    top: 50%; /* 페이지 상단에서 수직 중앙 위치 */
+    transform: translateY(-80%); /* 버튼을 정확히 수직 중앙에 위치시키기 */
     display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 400px; /* 콘텐츠 높이 설정 */
-    margin: 20px 0;
+    width: 1500px;
+    height: 600px; /* 콘텐츠 높이 설정 */
+    margin: 180px 10%;
 }
 #page-content {
     font-size: 24px;
     color: #333;
-    text-align: center;
     padding: 20px;
-    background-color: #f9f9f9;
-    border: 1px solid #ddd;
-    border-radius: 8px;
+    background-color: #007bff;
     width: 80%;
+    display: flex;
+    align-items: center; /* Vertical centering */
+    margin: 0 auto; /* Center horizontally on the page */
+}
+#image-content img {
+    width: 800px;
+    height: 600px;
+    object-fit: cover; /* 이미지를 자르지 않고, 전체 영역을 채우도록 설정 */
+    display: block;    /* 이미지 아래 공백 제거 */
 }
 
 /* 페이지 번호 스타일 */
@@ -115,3 +123,4 @@ body {
 .hidden {
     display: none;
 }
+

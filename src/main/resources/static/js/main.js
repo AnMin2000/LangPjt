@@ -278,7 +278,13 @@ document.addEventListener("DOMContentLoaded", function() { // webRTC로 넘어�
     faceChatElement.addEventListener("click", function() {
         window.location.href = "/webRTC";
     });
+
+    const speakTestElement = document.querySelector(".speakTest");
+    speakTestElement.addEventListener("click", function() {
+        window.location.href = "/speak";
+    });
 });
+
 
 document.addEventListener("DOMContentLoaded", function() {
     // 이미지 요소들을 선택합니다.
