@@ -34,11 +34,13 @@ body {
 .content {
     position: absolute;
     top: 50%; /* 페이지 상단에서 수직 중앙 위치 */
-    transform: translateY(-80%); /* 버튼을 정확히 수직 중앙에 위치시키기 */
+    transform: translateY(-100%); /* 버튼을 정확히 수직 중앙에 위치시키기 */
     display: flex;
     width: 1500px;
     height: 600px; /* 콘텐츠 높이 설정 */
     margin: 180px 10%;
+    flex-wrap: wrap;
+    gap : 20px;
 }
 #page-content {
     font-size: 30px; /* 적당한 글씨 크기 */
@@ -48,7 +50,7 @@ body {
     border: 1px solid #cccccc; /* 얇은 테두리로 패널을 구분 */
     border-radius: 15px; /* 둥근 모서리 */
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1); /* 더 깊은 그림자로 입체감 강조 */
-    width: 80%; /* 기존 너비 유지 */
+    width: 88%; /* 기존 너비 유지 */
     display: flex;
     align-items: center; /* 세로 중심 정렬 */
     margin: 0 auto; /* 가로 중앙 정렬 */
@@ -140,6 +142,23 @@ body {
 
 #submit-button:hover {
     background-color: #0056b3; /* Darker blue for hover effect */
+}
+#check-button {
+    background-color: #1e2a38; /* 깊은 블루 색상 */
+    color: #ffffff; /* 흰색 텍스트 */
+    border: none;
+    padding: 12px 24px; /* 버튼 크기를 적당히 조정 */
+    font-size: 18px; /* 글씨 크기를 약간 줄임 */
+    cursor: pointer;
+    border-radius: 6px; /* 둥근 모서리로 부드러운 느낌 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 깊이감을 주는 그림자 */
+    transition: background-color 0.3s, box-shadow 0.3s; /* 배경색과 그림자에 애니메이션 추가 */
+    font-family: 'Georgia', serif; /* 학습 노트에 어울리는 서체 */
+}
+
+#check-button:hover {
+    background-color: #263238; /* 더 어두운 블루로 호버 효과 */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* 호버 시 그림자 강조 */
 }
 
 /* 숨겨진 상태 */

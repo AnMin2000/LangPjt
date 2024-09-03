@@ -2,8 +2,8 @@
 document.addEventListener('DOMContentLoaded', () => {
     const uploadURL = "http://127.0.0.1:5000/upload";
     const btn = document.getElementById('btn');
-    var buffering = document.getElementById('buffering');
-
+    const buffering = document.getElementById('buffering');
+    const test = document.getElementById('test');
     const highlight = (text, from, to, color) => {
         let replacement = highlightBackground(text.slice(from, to), color);
         return text.substring(0, from) + replacement + text.substring(to);
@@ -99,7 +99,18 @@ document.addEventListener('DOMContentLoaded', () => {
                                     console.log("Received transcript:", data.transcript);
                                     console.log("Received score:", data.score);
                                     console.log("Received result:", data.result);
+
                                     buffering.style.display = 'none'; // 움짤 끄기
+
+                                    if (data.score === 0) {
+                                        test.style.color = 'red';
+                                        test.textContent = "[Fail!] " + "You say : " + data.result;
+                                    }
+                                    else{
+                                        test.style.color = 'blue'; 
+                                        test.textContent = "[Success!] " + "Your score : " + data.score * 20
+                                    }
+
                                     btn.disabled = false;
 
                                     // 추가 처리 로직...
