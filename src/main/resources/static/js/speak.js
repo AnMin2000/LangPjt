@@ -12,6 +12,25 @@ document.addEventListener('DOMContentLoaded', () => {
     const buffering = document.getElementById('buffering');
     const test = document.getElementById('test');
     let textElement = document.getElementById('text');
+    const imgElement = document.getElementById('img'); // 이미디 동적 처리
+
+// id가 'data'인 div 요소를 선택합니다.
+    const dataDiv = document.getElementById('data');
+
+// data-picture와 data-text 속성 값을 가져옵니다.
+    const pictureData = dataDiv.getAttribute('data-picture');
+    const textData = dataDiv.getAttribute('data-text');
+
+// data-picture 속성 값을 배열로 변환합니다.
+    const pictureArray = pictureData.slice(1, -1).split(', ').map(item => item.trim());
+
+// data-text 속성 값을 배열로 변환합니다 (여기서는 구분자가 없으므로 직접 처리 필요).
+    const textArray = textData.slice(1, -1).split(', ');
+
+// 배열의 0번째 인덱스 값을 콘솔에 출력합니다.
+    console.log(pictureArray[0]);
+    console.log(textArray[0]);
+
 
     // 페이지 번호 생성
     for (let i = 1; i <= totalPages; i++) {
@@ -23,7 +42,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // ${encodeURIComponent(id)}
 
     const updatePageContent = () => {
-        textElement.textContent = `${currentPage}`;
+
+        imgElement.src = pictureArray[currentPage-1];
+        textElement.textContent = textArray[currentPage-1];
+
         if (currentPage === totalPages) {
             submitSection.classList.remove('hidden');
             contentDiv.classList.add('hidden'); // 10번 페이지일 때 content 숨기기

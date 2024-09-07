@@ -14,10 +14,12 @@ import java.util.Map;
 
 @Service
 public class SpeakLoadTestService {
+
     @Autowired
     private SpeakQuestionRepository speakQuestionRepository;
     @Autowired
     private SpeakTestPaperRepository speakTestPaperRepository;
+
     public List<String> loadPicture(int paperId){
 
         SpeakTestPaperEntity paper = speakTestPaperRepository.findById((long)paperId)
