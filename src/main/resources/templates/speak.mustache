@@ -11,13 +11,19 @@
 <body>
 <div class="content">
     <div id="image-content">
-        <img src="/image/tmp2.jpg" alt="Loading...">
+        <img src="/image/speakQues/1.9.webp" alt="Loading...">
     </div>
     <div id="page-content">
-        <!-- 페이지 내용이 여기에 동적으로 표시됩니다 -->
+        <p id="text"></p>
     </div>
     <button id="check-button">🎙️</button>
 </div>
+
+<div id="content2">
+    <p id="test"></p>
+</div>
+<img id="buffering" src="/image/buffering.gif" style="display: none;" alt="Loading...">
+
 <button class="button-left">◀</button>
 <button class="button-right">▶</button>
 <div class="pagination">
@@ -29,5 +35,6 @@
     <p>Do you want to submit it?</p>
     <button id="submit-button">Submit</button>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/mustache@4.2.0/mustache.min.js"></script>
 </body>
 </html>

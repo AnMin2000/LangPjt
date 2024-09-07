@@ -1,12 +1,16 @@
 package com.example.test4.userController;
 
+import com.example.test4.entity.speakentity.SpeakQuestionEntity;
+import com.example.test4.userService.SpeakLoadTestService;
 import com.example.test4.userService.SpeakTestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -15,8 +19,18 @@ public class SpeakTestController {
     @Autowired
     private SpeakTestService speakTestService;
 
+    @Autowired
+    private SpeakLoadTestService speakLoadTestService;
+
     @GetMapping("/speak")
-    public String speak() {
+    public String speak(@RequestParam(name = "id") int paperId, Model model) {
+
+        List<String> loadPicture = speakLoadTestService.loadPicture(paperId);
+        List<String> loadText = speakLoadTestService.loadText(paperId);
+
+
+        model.addAttribute("picture", loadPicture);
+        model.addAttribute("text", loadText);
         return "speak";
     }
 
@@ -29,15 +43,5 @@ public class SpeakTestController {
         return ResponseEntity.ok(response);
     }
 
-
-    private String getContentForId(int id) {
-        // ID에 따라 적절한 콘텐츠를 반환합니다. 예를 들어:
-        return switch (id) {
-            case 1 -> "Content for Image 1";
-            case 2 -> "Content for Image 2";
-            // 추가적인 케이스를 추가합니다.
-            default -> "Content for Image" + id;
-        };
-    }
 }
 
