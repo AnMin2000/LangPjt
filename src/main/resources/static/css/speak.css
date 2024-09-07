@@ -73,8 +73,6 @@ body {
     overflow: hidden; /* 모서리 둥근 부분에 맞춰 이미지가 잘리지 않도록 */
 }
 
-
-
 #image-content img {
     width: 800px;
     height: 600px;
@@ -116,6 +114,7 @@ body {
 .pagination span:hover {
     background-color: #e0e0e0;
 }
+
 #submit-section {
     font-size: 18px;
     position: absolute;      /* Allows positioning relative to the nearest positioned ancestor (the body) */
@@ -125,9 +124,11 @@ body {
     text-align: center;      /* Center text inside the section */
     margin-top: 20px;        /* Optional: adjust top margin if needed */
 }
+
 #submit-section p {
     font-size: 40px; /* Larger font size for the paragraph */
 }
+
 #submit-button {
     background-color: #007bff; /* Blue background color */
     color: white;
@@ -143,12 +144,13 @@ body {
 #submit-button:hover {
     background-color: #0056b3; /* Darker blue for hover effect */
 }
+
 #check-button {
     background-color: #1e2a38; /* 깊은 블루 색상 */
     color: #ffffff; /* 흰색 텍스트 */
     border: none;
     padding: 12px 24px; /* 버튼 크기를 적당히 조정 */
-    font-size: 18px; /* 글씨 크기를 약간 줄임 */
+    font-size: 44px; /* 글씨 크기를 약간 줄임 */
     cursor: pointer;
     border-radius: 6px; /* 둥근 모서리로 부드러운 느낌 */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 깊이감을 주는 그림자 */
@@ -157,8 +159,10 @@ body {
 }
 
 #check-button:hover {
-    background-color: #263238; /* 더 어두운 블루로 호버 효과 */
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* 호버 시 그림자 강조 */
+    background-color: #37474f; /* 훨씬 더 어두운 블루로 호버 효과 */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4); /* 호버 시 그림자 더 강조 */
+    transform: scale(1.05); /* 약간 크기 증가로 시각적 효과 추가 */
+    color: #f8f8f8; /* 텍스트 색상을 약간 더 밝게 변경 */
 }
 
 /* 숨겨진 상태 */
