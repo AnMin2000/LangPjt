@@ -32,6 +32,8 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log(textArray[0]);
 
     let recognition;
+    var arr = [null, null, null, null, null, null, null, null, null];
+    var arrCol = [null, null, null, null, null, null, null, null, null];
 
     // 페이지 번호 생성
     for (let i = 1; i <= totalPages; i++) {
@@ -47,7 +49,10 @@ document.addEventListener('DOMContentLoaded', () => {
         if(currentPage < 10) {
             imgElement.src = pictureArray[currentPage - 1]; // 현재 페이지 기준 사진 호출
             textElement.textContent = textArray[currentPage - 1]; // 현재 페이지 기준 텍스트 호출
+            test.style.color = arrCol[currentPage - 1];
+            test.textContent = arr[currentPage - 1];
         }
+
         if (currentPage === totalPages) {
             submitSection.classList.remove('hidden');
             contentDiv.classList.add('hidden'); // 10번 페이지일 때 content 숨기기
@@ -56,6 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
             contentDiv.classList.remove('hidden'); // 다른 페이지일 때 content 보이기
         }
     };
+
 
     const updatePagination = () => {
         document.querySelectorAll('.pagination span').forEach(span => {
@@ -114,6 +120,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 제출 버튼 클릭 시 POST 요청
     submitButton.addEventListener('click', () => {
+
+        // buffering.style.display = 'block'; // 움짤 띄우기   최종적으로 제출전에 검사하면서 쓰삼
+        // buffering.style.display = 'none'; // 움짤 끄기
         const urlParams = new URL(location.href).searchParams;
 
         const id = urlParams.get('id');
@@ -150,6 +159,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const highlightBackground = (sample, color) => `<span style="background-color: ${color};">${sample}</span>`;
 
     checkButton.addEventListener('click', () => {
+
+        let nowPage = currentPage;
+
+        test.style.color = 'red';
+        test.textContent = "Recoding...";
+
         recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
         recognition.lang = 'en-US';  // 영어로 설정
         recognition.interimResults = true;
@@ -184,7 +199,21 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-
+        recognition.addEventListener('end', () => {
+            try {
+                // recognition.start()를 호출하기 전에 상태를 확인할 방법이 없으므로
+                // 예외 처리를 통해 오류를 방지합니다.
+                if (!isComplete) {
+                    recognition.start(); // 인식을 시작합니다.
+                }
+            } catch (error) {
+                if (error.name === 'InvalidStateError') {
+                    console.warn('재실행');
+                } else {
+                    console.error('SpeechRecognition을 재시작하는 중 오류 발생:', error);
+                }
+            }
+        });
 
         recognition.start();  // 음성 인식 시작
 
@@ -198,7 +227,7 @@ document.addEventListener('DOMContentLoaded', () => {
         navigator.mediaDevices.getUserMedia(constraints)
             .then(function(stream) {
                 let chunks = [];
-                recorder = new MediaRecorder(stream);
+                let recorder = new MediaRecorder(stream);
 
                 // 녹음 데이터 처리
                 recorder.ondataavailable = event => {
@@ -212,7 +241,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     // 필터링된 문장과 연동된 녹음 전송
                     if (isComplete) {
-                        buffering.style.display = 'block'; // 움짤 띄우기
+
+                        arr[nowPage - 1] = "Calculating...";
+                        test.textContent = arr[nowPage - 1];
+
                         let formData = new FormData();
                         formData.append("audio_file", blob);
                         formData.append("transcript", finalTranscript); // 필터링된 문장 전송
@@ -235,15 +267,26 @@ document.addEventListener('DOMContentLoaded', () => {
                                     console.log("Received score:", data.score);
                                     console.log("Received result:", data.result);
 
-                                    buffering.style.display = 'none'; // 움짤 끄기
 
                                     if (data.score === 0) {
-                                        test.style.color = 'red';
-                                        test.textContent = "[Fail!] " + "You say : " + data.result;
+                                        arrCol[nowPage - 1] = 'red';
+                                        arr[nowPage - 1] = "[Fail!] " + "You say : " + data.result;
+
+                                        if(nowPage === currentPage) {
+                                            test.style.color = arrCol[nowPage - 1];
+                                            test.textContent = arr[nowPage - 1];
+                                        }
+
                                     }
                                     else{
-                                        test.style.color = 'blue';
-                                        test.textContent = "[Success!] " + "Your score : " + data.score * 20
+                                        arrCol[nowPage - 1] = 'blue';
+                                        arr[nowPage - 1] = "[Success!] " + "Your score : " + data.score * 20
+
+                                        if(nowPage === currentPage) {
+                                            test.style.color = arrCol[nowPage - 1];
+                                            test.textContent = arr[nowPage - 1];
+                                        }
+
                                     }
 
                                     checkButton.disabled = false;
