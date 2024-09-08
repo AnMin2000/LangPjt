@@ -181,3 +181,9 @@ body {
     height: 100px; /* 이미지 크기 조정 */
     display: none; /* 초기에는 숨김 */
 }
+#test {
+    margin-left: 380px;
+    margin-top: -20px;
+    color: red;
+    font-family: serif;
+}

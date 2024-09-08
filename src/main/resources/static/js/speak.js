@@ -43,8 +43,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const updatePageContent = () => {
 
-        imgElement.src = pictureArray[currentPage-1];
-        textElement.textContent = textArray[currentPage-1];
+        imgElement.src = pictureArray[currentPage-1]; // 현재 페이지 기준 사진 호출
+        textElement.textContent = textArray[currentPage-1]; // 현재 페이지 기준 텍스트 호출
 
         if (currentPage === totalPages) {
             submitSection.classList.remove('hidden');
@@ -71,6 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelector('.button-left').addEventListener('click', () => {
         if (currentPage > 1) {
             currentPage--;
+
             updatePageContent();
             updatePagination();
         }
@@ -80,6 +81,8 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelector('.button-right').addEventListener('click', () => {
         if (currentPage < totalPages) {
             currentPage++;
+            checkButton.disabled = false;
+
             updatePageContent();
             updatePagination();
         }
