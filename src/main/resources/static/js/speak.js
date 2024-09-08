@@ -43,9 +43,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const updatePageContent = () => {
 
-        imgElement.src = pictureArray[currentPage-1]; // 현재 페이지 기준 사진 호출
-        textElement.textContent = textArray[currentPage-1]; // 현재 페이지 기준 텍스트 호출
-
+        if(currentPage < 10) {
+            imgElement.src = pictureArray[currentPage - 1]; // 현재 페이지 기준 사진 호출
+            textElement.textContent = textArray[currentPage - 1]; // 현재 페이지 기준 텍스트 호출
+        }
         if (currentPage === totalPages) {
             submitSection.classList.remove('hidden');
             contentDiv.classList.add('hidden'); // 10번 페이지일 때 content 숨기기
