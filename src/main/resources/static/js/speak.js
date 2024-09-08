@@ -31,6 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log(pictureArray[0]);
     console.log(textArray[0]);
 
+    let recognition;
 
     // 페이지 번호 생성
     for (let i = 1; i <= totalPages; i++) {
@@ -73,6 +74,11 @@ document.addEventListener('DOMContentLoaded', () => {
         if (currentPage > 1) {
             currentPage--;
 
+            if (recognition) {
+                checkButton.disabled = false;
+                recognition.stop();
+            }
+
             updatePageContent();
             updatePagination();
         }
@@ -82,7 +88,11 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelector('.button-right').addEventListener('click', () => {
         if (currentPage < totalPages) {
             currentPage++;
-            checkButton.disabled = false;
+
+            if (recognition) {
+                checkButton.disabled = false;
+                recognition.stop();
+            }
 
             updatePageContent();
             updatePagination();
@@ -93,6 +103,10 @@ document.addEventListener('DOMContentLoaded', () => {
     paginationDiv.addEventListener('click', (event) => {
         if (event.target.tagName === 'SPAN') {
             currentPage = parseInt(event.target.dataset.page);
+            if (recognition) {
+                checkButton.disabled = false;
+                recognition.stop();
+            }
             updatePageContent();
             updatePagination();
         }
@@ -136,7 +150,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const highlightBackground = (sample, color) => `<span style="background-color: ${color};">${sample}</span>`;
 
     checkButton.addEventListener('click', () => {
-        const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+        recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
         recognition.lang = 'en-US';  // 영어로 설정
         recognition.interimResults = true;
 
@@ -170,9 +184,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        recognition.addEventListener('end', () => {
-            if (!isComplete) recognition.start();  // 음성 인식 계속
-        });
+
 
         recognition.start();  // 음성 인식 시작
 
@@ -186,7 +198,7 @@ document.addEventListener('DOMContentLoaded', () => {
         navigator.mediaDevices.getUserMedia(constraints)
             .then(function(stream) {
                 let chunks = [];
-                let recorder = new MediaRecorder(stream);
+                recorder = new MediaRecorder(stream);
 
                 // 녹음 데이터 처리
                 recorder.ondataavailable = event => {
