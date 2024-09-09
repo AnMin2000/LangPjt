@@ -127,8 +127,14 @@ document.addEventListener('DOMContentLoaded', () => {
     // 제출 버튼 클릭 시 POST 요청
     submitButton.addEventListener('click', () => {
 
-        console.log(arrText);
-        console.log(arrScore);
+        if(arrScore.includes(null)){
+            alert('[Fail!] : There are unfinished test questions!');
+            console.log("0포함 돼있음")
+        }
+        else{
+            console.log("성공")
+            // 디비 넣기 : 현재 주소 파라미터 값 뽑아와서 스피킹 시험지에 일치하는 [스피킹 문제] 테이블에서 id 값을 오름차순으로 넣으면 됨
+        }
         // buffering.style.display = 'block'; // 움짤 띄우기   최종적으로 제출전에 검사하면서 쓰삼
         // buffering.style.display = 'none'; // 움짤 끄기
         // const urlParams = new URL(location.href).searchParams;
