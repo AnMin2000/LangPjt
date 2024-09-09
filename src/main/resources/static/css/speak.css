@@ -54,7 +54,7 @@ body {
     display: flex;
     align-items: center; /* 세로 중심 정렬 */
     margin-right: -30px;
-    margin-left: 25%;
+    margin-left: 23%;
     font-family: 'Georgia', serif; /* 학습 노트에 적합한 세리프 글꼴 사용 */
     letter-spacing: 0.5px; /* 글자 간격을 약간 늘려서 시각적 여유 추가 */
 }
@@ -158,9 +158,29 @@ body {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 깊이감을 주는 그림자 */
     transition: background-color 0.3s, box-shadow 0.3s; /* 배경색과 그림자에 애니메이션 추가 */
     font-family: 'Georgia', serif; /* 학습 노트에 어울리는 서체 */
+    margin-right: -30px;
 }
 
 #check-button:hover {
+    background-color: #37474f; /* 훨씬 더 어두운 블루로 호버 효과 */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4); /* 호버 시 그림자 더 강조 */
+    transform: scale(1.05); /* 약간 크기 증가로 시각적 효과 추가 */
+    color: #f8f8f8; /* 텍스트 색상을 약간 더 밝게 변경 */
+}
+
+#sound-button {
+    background-color: #1e2a38; /* 깊은 블루 색상 */
+    color: #ffffff; /* 흰색 텍스트 */
+    border: none;
+    font-size: 44px; /* 글씨 크기를 약간 줄임 */
+    cursor: pointer;
+    border-radius: 6px; /* 둥근 모서리로 부드러운 느낌 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 깊이감을 주는 그림자 */
+    transition: background-color 0.3s, box-shadow 0.3s; /* 배경색과 그림자에 애니메이션 추가 */
+    font-family: 'Georgia', serif; /* 학습 노트에 어울리는 서체 */
+}
+
+#sound-button:hover {
     background-color: #37474f; /* 훨씬 더 어두운 블루로 호버 효과 */
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4); /* 호버 시 그림자 더 강조 */
     transform: scale(1.05); /* 약간 크기 증가로 시각적 효과 추가 */
@@ -182,7 +202,7 @@ body {
     display: none; /* 초기에는 숨김 */
 }
 #test {
-    margin-left: 380px;
+    margin-left: 355px;
     margin-top: -20px;
     color: red;
     font-family: serif;

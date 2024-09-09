@@ -168,7 +168,8 @@ body {
 
 .button-list {
     bottom: 20px; /* 화면 하단에서 20px 떨어진 위치로 설정 */
-    transform: translate(8%,-2500%);
+    transform: translate(8%);
+    margin-top: -42%;
 }
 
 .outer2 {
@@ -200,7 +201,8 @@ body {
 }
 .button-list2 {
     bottom: 20px; /* 화면 하단에서 20px 떨어진 위치로 설정 */
-    transform: translate(35%,-2600%);
+    transform: translate(35%);
+    margin-top: -1.8%;
 }
 
 
@@ -234,7 +236,8 @@ body {
 
 .button-list3 {
     bottom: 20px; /* 화면 하단에서 20px 떨어진 위치로 설정 */
-    transform: translate(62%,-2700%);
+    transform: translate(62%);
+    margin-top: -1.8%;
 }
 
 .outer4{
@@ -267,7 +270,8 @@ body {
 
 .button-list4 {
     bottom: 20px; /* 화면 하단에서 20px 떨어진 위치로 설정 */
-    transform: translate(89%,-2800%);
+    transform: translate(89%);
+    margin-top: -1.8%;
 }
 
 /* 스크롤바 스타일링 */

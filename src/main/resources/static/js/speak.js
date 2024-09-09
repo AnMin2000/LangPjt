@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const contentDiv = document.querySelector('.content');
     const submitButton = document.getElementById('submit-button');
     const checkButton = document.getElementById('check-button');
+    const soundButton = document.getElementById('sound-button');
     let currentPage = 1;
     const uploadURL = "http://127.0.0.1:5000/upload";
     const buffering = document.getElementById('buffering');
@@ -32,9 +33,9 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log(textArray[0]);
 
     let recognition;
-    var arr = [null, null, null, null, null, null, null, null, null];
-    var arrCol = [null, null, null, null, null, null, null, null, null];
-
+    var arrText = [null, null, null, null, null, null, null, null, null]; // 입력 문장
+    var arrColor = [null, null, null, null, null, null, null, null, null]; // 입력시 문장 색깔
+    var arrScore = [null, null, null, null, null, null, null, null, null]; // 입력시 문장 점수
     // 페이지 번호 생성
     for (let i = 1; i <= totalPages; i++) {
         const span = document.createElement('span');
@@ -49,8 +50,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if(currentPage < 10) {
             imgElement.src = pictureArray[currentPage - 1]; // 현재 페이지 기준 사진 호출
             textElement.textContent = textArray[currentPage - 1]; // 현재 페이지 기준 텍스트 호출
-            test.style.color = arrCol[currentPage - 1];
-            test.textContent = arr[currentPage - 1];
+            test.style.color = arrColor[currentPage - 1];
+            test.textContent = arrText[currentPage - 1];
         }
 
         if (currentPage === totalPages) {
@@ -118,38 +119,45 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    soundButton.addEventListener('click', () => {
+        const text = textElement.innerText;  // textElement에서 텍스트 가져오기
+        const utterance = new SpeechSynthesisUtterance(text);  // TTS용 객체 생성
+        speechSynthesis.speak(utterance);  // 텍스트를 음성으로 변환
+    });
     // 제출 버튼 클릭 시 POST 요청
     submitButton.addEventListener('click', () => {
 
+        console.log(arrText);
+        console.log(arrScore);
         // buffering.style.display = 'block'; // 움짤 띄우기   최종적으로 제출전에 검사하면서 쓰삼
         // buffering.style.display = 'none'; // 움짤 끄기
-        const urlParams = new URL(location.href).searchParams;
-
-        const id = urlParams.get('id');
-        const url = `/speak?id=${encodeURIComponent(id)}`;
-
-            if (id) {
-            fetch(url, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ page: currentPage })
-            })
-                .then(response => response.text())
-                .then(text => {
-                    console.log(text); // 또는 적절히 처리
-                    alert('Submission successful!');
-                    window.location.href = '/main'; // '/speak' 경로로 이동
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('An error occurred: ' + error.message);
-                });
-            } else {
-                // id가 존재하지 않을 때 이 코드 블록이 실행됩니다.
-                alert('ID not found in URL.');
-            }
+        // const urlParams = new URL(location.href).searchParams;
+        //
+        // const id = urlParams.get('id');
+        // const url = `/speak?id=${encodeURIComponent(id)}`;
+        //
+        //     if (id) {
+        //     fetch(url, {
+        //         method: 'POST',
+        //         headers: {
+        //             'Content-Type': 'application/json'
+        //         },
+        //         body: JSON.stringify({ page: currentPage })
+        //     })
+        //         .then(response => response.text())
+        //         .then(text => {
+        //             console.log(text); // 또는 적절히 처리
+        //             alert('Submission successful!');
+        //             window.location.href = '/main'; // '/speak' 경로로 이동
+        //         })
+        //         .catch(error => {
+        //             console.error('Error:', error);
+        //             alert('An error occurred: ' + error.message);
+        //         });
+        //     } else {
+        //         // id가 존재하지 않을 때 이 코드 블록이 실행됩니다.
+        //         alert('ID not found in URL.');
+        //     }
     });
     const highlight = (text, from, to, color) => {
         let replacement = highlightBackground(text.slice(from, to), color);
@@ -242,8 +250,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     // 필터링된 문장과 연동된 녹음 전송
                     if (isComplete) {
 
-                        arr[nowPage - 1] = "Calculating...";
-                        test.textContent = arr[nowPage - 1];
+                        arrText[nowPage - 1] = "Calculating...";
+                        test.textContent = arrText[nowPage - 1];
 
                         let formData = new FormData();
                         formData.append("audio_file", blob);
@@ -269,22 +277,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
                                     if (data.score === 0) {
-                                        arrCol[nowPage - 1] = 'red';
-                                        arr[nowPage - 1] = "[Fail!] " + "You say : " + data.result;
+                                        arrColor[nowPage - 1] = 'red';
+                                        arrText[nowPage - 1] = "[Fail!] " + "You say : " + data.result;
+                                        // 어차피 모든 인식이 돼야 submit 허용 할거기 때문에 필요 없음
 
                                         if(nowPage === currentPage) {
-                                            test.style.color = arrCol[nowPage - 1];
-                                            test.textContent = arr[nowPage - 1];
+                                            test.style.color = arrColor[nowPage - 1];
+                                            test.textContent = arrText[nowPage - 1];
                                         }
 
                                     }
                                     else{
-                                        arrCol[nowPage - 1] = 'blue';
-                                        arr[nowPage - 1] = "[Success!] " + "Your score : " + data.score * 20
+                                        arrColor[nowPage - 1] = 'blue';
+                                        arrText[nowPage - 1] = "[Success!] " + "Your score : " + data.score * 20
+                                        arrScore[nowPage - 1] = data.score * 20; // 페이지당 점수
 
                                         if(nowPage === currentPage) {
-                                            test.style.color = arrCol[nowPage - 1];
-                                            test.textContent = arr[nowPage - 1];
+                                            test.style.color = arrColor[nowPage - 1];
+                                            test.textContent = arrText[nowPage - 1];
                                         }
 
                                     }
