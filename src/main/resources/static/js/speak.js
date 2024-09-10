@@ -45,6 +45,117 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     // ${encodeURIComponent(id)}
 
+
+    document.getElementById('text1').addEventListener('click', () => {
+        currentPage = 1;
+
+        if (recognition) {
+            checkButton.disabled = false;
+            recognition.stop();
+        }
+
+        updatePageContent();
+        updatePagination();
+    });
+
+    document.getElementById('text2').addEventListener('click', () => {
+        currentPage = 2;
+
+        if (recognition) {
+            checkButton.disabled = false;
+            recognition.stop();
+        }
+
+        updatePageContent();
+        updatePagination();
+    });
+
+    document.getElementById('text3').addEventListener('click', () => {
+        currentPage = 3;
+
+        if (recognition) {
+            checkButton.disabled = false;
+            recognition.stop();
+        }
+
+        updatePageContent();
+        updatePagination();
+    });
+
+    document.getElementById('text4').addEventListener('click', () => {
+        currentPage = 4;
+
+        if (recognition) {
+            checkButton.disabled = false;
+            recognition.stop();
+        }
+
+        updatePageContent();
+        updatePagination();
+    });
+
+    document.getElementById('text5').addEventListener('click', () => {
+        currentPage = 5;
+
+        if (recognition) {
+            checkButton.disabled = false;
+            recognition.stop();
+        }
+
+        updatePageContent();
+        updatePagination();
+    });
+
+    document.getElementById('text6').addEventListener('click', () => {
+        currentPage = 6;
+
+        if (recognition) {
+            checkButton.disabled = false;
+            recognition.stop();
+        }
+
+        updatePageContent();
+        updatePagination();
+    });
+
+    document.getElementById('text7').addEventListener('click', () => {
+        currentPage = 7;
+
+        if (recognition) {
+            checkButton.disabled = false;
+            recognition.stop();
+        }
+
+        updatePageContent();
+        updatePagination();
+    });
+
+    document.getElementById('text8').addEventListener('click', () => {
+        currentPage = 8;
+
+        if (recognition) {
+            checkButton.disabled = false;
+            recognition.stop();
+        }
+
+        updatePageContent();
+        updatePagination();
+    });
+
+    document.getElementById('text9').addEventListener('click', () => {
+        currentPage = 9;
+
+        if (recognition) {
+            checkButton.disabled = false;
+            recognition.stop();
+        }
+
+        updatePageContent();
+        updatePagination();
+    });
+
+
+
     const updatePageContent = () => {
 
         if(currentPage < 10) {
@@ -140,18 +251,18 @@ document.addEventListener('DOMContentLoaded', () => {
     // 제출 버튼 클릭 시 POST 요청
     submitButton.addEventListener('click', () => {
 
-        arrScore = Array.from({ length: 9 }, () => Math.floor(Math.random() * 100) + 1); // 랜덤값 생성 (테스트 용임)
-        arrText = [
-            "Hello",
-            "World",
-            "How are",
-            "you doing?",
-            "JavaScript",
-            "is fun!",
-            "Array",
-            "example",
-            "short text"
-        ]; // 랜덤 텍스트 생성
+        // arrScore = Array.from({ length: 9 }, () => Math.floor(Math.random() * 100) + 1); // 랜덤값 생성 (테스트 용임)
+        // arrText = [
+        //     "Hello",
+        //     "World",
+        //     "How are",
+        //     "you doing?",
+        //     "JavaScript",
+        //     "is fun!",
+        //     "Array",
+        //     "example",
+        //     "short text"
+        // ]; // 랜덤 텍스트 생성 (테스트 용임)
 
         if(arrScore.includes(null)){
             alert('[Fail!] : There are unfinished test questions!');
@@ -208,6 +319,7 @@ document.addEventListener('DOMContentLoaded', () => {
     checkButton.addEventListener('click', () => {
 
         let nowPage = currentPage;
+        let noteElement = document.querySelector(`#text${nowPage}`);
 
         test.style.color = 'red';
         test.textContent = "Recoding...";
@@ -288,9 +400,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     // 필터링된 문장과 연동된 녹음 전송
                     if (isComplete) {
-
-                        arrText[nowPage - 1] = "Calculating...";
+                        arrText[nowPage - 1] = "Calculating... Solve the next problem first!";
                         test.textContent = arrText[nowPage - 1];
+
+                        noteElement.style.color = 'black'
+                        noteElement.textContent = "Page" + nowPage + " : " + "Calculating..."
 
                         let formData = new FormData();
                         formData.append("audio_file", blob);
@@ -320,6 +434,9 @@ document.addEventListener('DOMContentLoaded', () => {
                                         arrText[nowPage - 1] = "[Fail!] " + "You say : " + data.result;
                                         // 어차피 모든 인식이 돼야 submit 허용 할거기 때문에 필요 없음
 
+                                        noteElement.style.color = 'red'
+                                        noteElement.textContent = "Page" + nowPage + " : " + "Fail";
+
                                         if(nowPage === currentPage) {
                                             test.style.color = arrColor[nowPage - 1];
                                             test.textContent = arrText[nowPage - 1];
@@ -330,6 +447,9 @@ document.addEventListener('DOMContentLoaded', () => {
                                         arrColor[nowPage - 1] = 'blue';
                                         arrText[nowPage - 1] = "[Success!] " + "Your score : " + data.score * 20
                                         arrScore[nowPage - 1] = data.score * 20; // 페이지당 점수
+
+                                        noteElement.style.color = 'blue'
+                                        noteElement.textContent = "Page" + nowPage + " : " + data.score * 20 + " points";
 
                                         if(nowPage === currentPage) {
                                             test.style.color = arrColor[nowPage - 1];

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,6 +30,9 @@ public class SpeakTestController {
         List<String> loadPicture = speakLoadTestService.loadPicture(paperId);
         List<String> loadText = speakLoadTestService.loadText(paperId);
 
+
+//        List<String> tmp = new ArrayList<>();   **테스트용 데이터**
+//        tmp.add("I like to eat");tmp.add("I like to eat");tmp.add("I like to eat");tmp.add("I like to eat");tmp.add("I like to eat");tmp.add("I like to eat");tmp.add("I like to eat");tmp.add("I like to eat");tmp.add("I like to eat");
 
         model.addAttribute("picture", loadPicture);
         model.addAttribute("text", loadText);
