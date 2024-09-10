@@ -124,46 +124,79 @@ document.addEventListener('DOMContentLoaded', () => {
         const utterance = new SpeechSynthesisUtterance(text);  // TTS용 객체 생성
         speechSynthesis.speak(utterance);  // 텍스트를 음성으로 변환
     });
+
+    // 배열의 합을 구하는 함수
+    function getAverageScore(arr) {
+        var sum = arr.reduce(function(accumulator, currentValue) {
+            return accumulator + currentValue;
+        }, 0);
+
+        var average = sum / arr.length;
+
+        // 소수점을 삭제하고 정수로 변환 (내림)
+        return Math.round(average);
+    }
+
     // 제출 버튼 클릭 시 POST 요청
     submitButton.addEventListener('click', () => {
 
+        arrScore = Array.from({ length: 9 }, () => Math.floor(Math.random() * 100) + 1); // 랜덤값 생성 (테스트 용임)
+        arrText = [
+            "Hello",
+            "World",
+            "How are",
+            "you doing?",
+            "JavaScript",
+            "is fun!",
+            "Array",
+            "example",
+            "short text"
+        ]; // 랜덤 텍스트 생성
+
         if(arrScore.includes(null)){
             alert('[Fail!] : There are unfinished test questions!');
-            console.log("0포함 돼있음")
+            console.log("null 포함 돼있음")
         }
-        else{
-            console.log("성공")
+        else {
+            var averageScore = getAverageScore(arrScore); // 평균 점수 구하기
+            console.log(arrScore)
+
             // 디비 넣기 : 현재 주소 파라미터 값 뽑아와서 스피킹 시험지에 일치하는 [스피킹 문제] 테이블에서 id 값을 오름차순으로 넣으면 됨
+
+            // buffering.style.display = 'block'; // 움짤 띄우기   최종적으로 제출전에 검사하면서 쓰삼
+            // buffering.style.display = 'none'; // 움짤 끄기
+
+            const urlParams = new URL(location.href).searchParams;
+
+            const id = urlParams.get('id');
+            const url = `/speak?id=${encodeURIComponent(id)}`;
+
+            if (id) {
+                fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        arrScore: arrScore,
+                        arrText: arrText
+                    })
+                })
+                    .then(response => response.text())
+                    .then(text => {
+                        console.log(text); // 또는 적절히 처리
+                        alert('Submission successful!\nYour average score : ' + averageScore);
+                        window.location.href = '/main'; // '/speak' 경로로 이동
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('An error occurred: ' + error.message);
+                    });
+            } else {
+                // id가 존재하지 않을 때 이 코드 블록이 실행됩니다.
+                alert('ID not found in URL.');
+            }
         }
-        // buffering.style.display = 'block'; // 움짤 띄우기   최종적으로 제출전에 검사하면서 쓰삼
-        // buffering.style.display = 'none'; // 움짤 끄기
-        // const urlParams = new URL(location.href).searchParams;
-        //
-        // const id = urlParams.get('id');
-        // const url = `/speak?id=${encodeURIComponent(id)}`;
-        //
-        //     if (id) {
-        //     fetch(url, {
-        //         method: 'POST',
-        //         headers: {
-        //             'Content-Type': 'application/json'
-        //         },
-        //         body: JSON.stringify({ page: currentPage })
-        //     })
-        //         .then(response => response.text())
-        //         .then(text => {
-        //             console.log(text); // 또는 적절히 처리
-        //             alert('Submission successful!');
-        //             window.location.href = '/main'; // '/speak' 경로로 이동
-        //         })
-        //         .catch(error => {
-        //             console.error('Error:', error);
-        //             alert('An error occurred: ' + error.message);
-        //         });
-        //     } else {
-        //         // id가 존재하지 않을 때 이 코드 블록이 실행됩니다.
-        //         alert('ID not found in URL.');
-        //     }
     });
     const highlight = (text, from, to, color) => {
         let replacement = highlightBackground(text.slice(from, to), color);

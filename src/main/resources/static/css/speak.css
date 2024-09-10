@@ -158,7 +158,6 @@ body {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 깊이감을 주는 그림자 */
     transition: background-color 0.3s, box-shadow 0.3s; /* 배경색과 그림자에 애니메이션 추가 */
     font-family: 'Georgia', serif; /* 학습 노트에 어울리는 서체 */
-    margin-right: -30px;
 }
 
 #check-button:hover {
@@ -166,6 +165,14 @@ body {
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4); /* 호버 시 그림자 더 강조 */
     transform: scale(1.05); /* 약간 크기 증가로 시각적 효과 추가 */
     color: #f8f8f8; /* 텍스트 색상을 약간 더 밝게 변경 */
+}
+
+#check-button:disabled {
+    background-color: #b0bec5; /* 연한 블루 그레이 색상으로 비활성화 상태 표현 */
+    color: #607d8b; /* 텍스트 색상을 회색으로 변경 */
+    cursor: not-allowed; /* 비활성화 상태에 맞는 커서 변경 */
+    box-shadow: none; /* 그림자 제거로 비활성화 상태 강조 */
+    transform: none; /* 크기 변화 제거 */
 }
 
 #sound-button {
@@ -178,6 +185,8 @@ body {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 깊이감을 주는 그림자 */
     transition: background-color 0.3s, box-shadow 0.3s; /* 배경색과 그림자에 애니메이션 추가 */
     font-family: 'Georgia', serif; /* 학습 노트에 어울리는 서체 */
+    margin-right: -30px;
+    z-index: 1000;
 }
 
 #sound-button:hover {
