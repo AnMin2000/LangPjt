@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const pageContentDiv = document.getElementById('page-content');
     const paginationDiv = document.querySelector('.pagination');
     const submitSection = document.getElementById('submit-section');
+    const submitDiv = document.getElementById('submitDiv');
     const contentDiv = document.querySelector('.content');
     const submitButton = document.getElementById('submit-button');
     const checkButton = document.getElementById('check-button');
@@ -14,6 +15,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const test = document.getElementById('test');
     let textElement = document.getElementById('text');
     const imgElement = document.getElementById('img'); // 이미디 동적 처리
+    let imgA = document.getElementById('imgA');
+    let imgB = document.getElementById('imgB');
+    let imgC = document.getElementById('imgC');
+    let imgD = document.getElementById('imgD');
+    let imgE = document.getElementById('imgE');
+    let imgF = document.getElementById('imgF');
+    let imgG = document.getElementById('imgG');
+    let imgH = document.getElementById('imgH');
+    let imgI = document.getElementById('imgI');
 
 // id가 'data'인 div 요소를 선택합니다.
     const dataDiv = document.getElementById('data');
@@ -167,9 +177,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (currentPage === totalPages) {
             submitSection.classList.remove('hidden');
+            submitDiv.classList.remove('hidden')
             contentDiv.classList.add('hidden'); // 10번 페이지일 때 content 숨기기
         } else {
             submitSection.classList.add('hidden');
+            submitDiv.classList.add('hidden');
             contentDiv.classList.remove('hidden'); // 다른 페이지일 때 content 보이기
         }
     };
@@ -404,7 +416,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         test.textContent = arrText[nowPage - 1];
 
                         noteElement.style.color = 'black'
-                        noteElement.textContent = "Page" + nowPage + " : " + "Calculating..."
+                        noteElement.textContent = "Page " + nowPage + " : " + "Calculating..."
 
                         let formData = new FormData();
                         formData.append("audio_file", blob);
@@ -427,7 +439,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                     console.log("Received transcript:", data.transcript);
                                     console.log("Received score:", data.score);
                                     console.log("Received result:", data.result);
-
+                                    console.log("받은 페이지", nowPage);
 
                                     if (data.score === 0) {
                                         arrColor[nowPage - 1] = 'red';
@@ -435,7 +447,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                         // 어차피 모든 인식이 돼야 submit 허용 할거기 때문에 필요 없음
 
                                         noteElement.style.color = 'red'
-                                        noteElement.textContent = "Page" + nowPage + " : " + "Fail";
+                                        noteElement.textContent = "Page " + nowPage + " : " + "Fail";
 
                                         if(nowPage === currentPage) {
                                             test.style.color = arrColor[nowPage - 1];
@@ -449,11 +461,48 @@ document.addEventListener('DOMContentLoaded', () => {
                                         arrScore[nowPage - 1] = data.score * 20; // 페이지당 점수
 
                                         noteElement.style.color = 'blue'
-                                        noteElement.textContent = "Page" + nowPage + " : " + data.score * 20 + " points";
+                                        noteElement.textContent = "Page " + nowPage + " : " + data.score * 20 + " points";
 
                                         if(nowPage === currentPage) {
                                             test.style.color = arrColor[nowPage - 1];
                                             test.textContent = arrText[nowPage - 1];
+                                        }
+
+                                        if(data.graph !== 0){
+                                            let graphSrc = `data:image/png;base64,${data.graph}`;
+
+                                            switch (nowPage) {
+                                                case 1:
+                                                    imgA.src = graphSrc;
+                                                    break;
+                                                case 2:
+                                                    imgB.src = graphSrc;
+                                                    break;
+                                                case 3:
+                                                    imgC.src = graphSrc;
+                                                    break;
+                                                case 4:
+                                                    imgD.src = graphSrc;
+                                                    break;
+                                                case 5:
+                                                    imgE.src = graphSrc;
+                                                    break;
+                                                case 6:
+                                                    imgF.src = graphSrc;
+                                                    break;
+                                                case 7:
+                                                    imgG.src = graphSrc;
+                                                    break;
+                                                case 8:
+                                                    imgH.src = graphSrc;
+                                                    break;
+                                                case 9:
+                                                    imgI.src = graphSrc;
+                                                    break;
+                                                default:
+                                                    console.log("Invalid page number");
+                                            }
+
                                         }
 
                                     }
@@ -489,4 +538,33 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     });
 
+});
+window.addEventListener('scroll', function() {
+    var cylinder = document.querySelector('.nono');
+    var left = document.querySelector('.button-left');
+    var right = document.querySelector('.button-right');
+    // 현재 스크롤 위치를 확인합니다.
+    var scrollY = window.scrollY;
+
+    // 스크롤이 일정 수준 이상 내려갔을 때 fixed 속성을 해제하고 absolute로 변경합니다.
+    if (scrollY > 100) {
+        cylinder.style.position = 'absolute';
+        cylinder.style.top = scrollY + 'px';
+
+        left.style.position = 'absolute';
+        left.style.top = scrollY + 'px';
+
+        right.style.position = 'absolute';
+        right.style.top = scrollY + 'px';
+    } else {
+        // 스크롤이 위로 올라오면 다시 fixed로 설정합니다.
+        cylinder.style.position = 'fixed';
+        cylinder.style.top = '0';
+
+        left.style.position = 'absolute';
+        left.style.top = scrollY + 'px';
+
+        right.style.position = 'absolute';
+        right.style.top = scrollY + 'px';
+    }
 });

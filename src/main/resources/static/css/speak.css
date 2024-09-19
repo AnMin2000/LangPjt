@@ -8,7 +8,7 @@ body {
 /* 버튼 스타일 */
 .button-left,
 .button-right {
-    position: absolute;
+    position: fixed;
     top: 50%; /* 페이지 상단에서 수직 중앙 위치 */
     transform: translateY(-50%); /* 버튼을 정확히 수직 중앙에 위치시키기 */
     background-color: #007bff; /* 기본 배경 색상 */
@@ -121,8 +121,8 @@ body {
 #submit-section {
     font-size: 18px;
     position: absolute;      /* Allows positioning relative to the nearest positioned ancestor (the body) */
-    top: 45%;                /* Position from the top */
-    left: 50%;               /* Position from the left */
+    top: 50%;                /* Position from the top */
+    left: 5%;               /* Position from the left */
     transform: translate(-50%, -50%); /* Adjust position to truly center it */
     text-align: center;      /* Center text inside the section */
     margin-top: 20px;        /* Optional: adjust top margin if needed */
@@ -142,6 +142,8 @@ body {
     border-radius: 4px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     transition: background-color 0.3s;
+    margin-left: 35%;
+    margin-top: 20px;
 }
 
 #submit-button:hover {
@@ -217,7 +219,7 @@ body {
     font-family: serif;
 }
 #nono {
-    position: absolute;  /* 화면에 고정 */
+    position: fixed;  /* 화면에 고정 */
     top: 0px;
     right: 0px;
     margin: 0px;
@@ -253,4 +255,60 @@ body {
 #pageStatus:hover {
     text-decoration: none; /* 마우스를 올렸을 때도 밑줄 없음 */
     cursor: default; /* 마우스를 올렸을 때도 일반 커서 */
+}
+.content2 {
+    position: absolute;
+    top: 50%; /* 페이지 상단에서 수직 중앙 위치 */
+    transform: translateY(-100%); /* 버튼을 정확히 수직 중앙에 위치시키기 */
+    display: flex;
+    width: 1500px;
+    height: 600px; /* 콘텐츠 높이 설정 */
+    margin: 180px 10%;
+    flex-wrap: wrap;
+    gap : 20px;
+    left: -100%;
+}
+#image-content img2,img3 {
+    width: 800px;
+    height: 600px;
+    object-fit: cover; /* 이미지를 자르지 않고, 전체 영역을 채우도록 설정 */
+    display: block;    /* 이미지 아래 공백 제거 */
+}
+#img2,#img3,#img4,#img5,#img6,#img7,#img8,#img9,#img10,#img11,#imgA,#imgB,#imgC,#imgD,#imgE,#imgF,#imgG,#imgH,#imgI{
+    border: 2px solid black;
+}
+#result-page{
+    transform: translateY(-100%); /* 버튼을 정확히 수직 중앙에 위치시키기 */
+    margin-left: 36%;
+    font-weight: bold; /* 굵은 폰트 */
+    color: #333; /* 텍스트 색상 */
+    text-align: center; /* 중앙 정렬 */
+    padding: 15px; /* 패딩 추가 */
+    background-color: #f4f4f9; /* 배경색 */
+    border: 2px solid #ddd; /* 테두리 */
+    border-radius: 10px; /* 둥근 테두리 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+}
+.page-label {
+    width: 100%;
+    text-align: center;
+    font-weight: bold;
+    margin: 0 0; /* 세로 간격을 줄이기 위해 5px로 설정 */
+    color: #333;
+    font-size: 18px; /* Adjust font size as needed */
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+#image-content2 {
+    padding: 15px; /* 적당한 패딩으로 이미지 주변에 여백을 추가 */
+    background: linear-gradient(135deg, #ffffff, #f5f7fa); /* 밝은 그라데이션 배경으로 깔끔한 느낌 */
+    border: 2px solid #dddddd; /* 약간 더 두꺼운 테두리로 이미지 강조 */
+    border-radius: 10px; /* 둥근 모서리로 부드러운 느낌 추가 */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15); /* 더 깊은 그림자로 이미지에 입체감 부여 */
+    display: flex;
+    align-items: center; /* 세로 중심 정렬 */
+    justify-content: center; /* 가로 중심 정렬 */
+    margin: -20px auto 30px;/* 세로 간격을 줄이기 위해 5px로 설정 */
+    max-width: 100%; /* 이미지가 부모 요소를 넘지 않도록 최대 너비 설정 */
+    overflow: hidden; /* 모서리 둥근 부분에 맞춰 이미지가 잘리지 않도록 */
+
 }
